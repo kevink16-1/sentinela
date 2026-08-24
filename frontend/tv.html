@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Hospital Pro • Painel de Chamadas</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+
+      font-family: "DM Sans", Arial, sans-serif;
+      color: #fff1f6;
+
+      background:
+        radial-gradient(circle at 10% 10%, rgba(184, 92, 125, .18), transparent 30%),
+        radial-gradient(circle at 90% 90%, rgba(232, 169, 193, .12), transparent 32%),
+        linear-gradient(135deg, #100a11, #1d0d19 50%, #100a11);
+    }
+
+    /* ✦ decoração */
+
+    body::before {
+      content: "✦   ♡   ⋆   ✧   ♡   ✦";
+      position: fixed;
+      top: 25px;
+      left: 40px;
+
+      color: rgba(232, 169, 193, .35);
+      font-size: 22px;
+      letter-spacing: 8px;
+
+      z-index: 10;
+    }
+
+    body::after {
+      content: "♡   ✧   ⋆   ✦";
+      position: fixed;
+      right: 40px;
+      bottom: 25px;
+
+      color: rgba(232, 169, 193, .28);
+      font-size: 20px;
+      letter-spacing: 8px;
+
+      z-index: 10;
+    }
+
+    /* =========================
+       ESTRUTURA PRINCIPAL
+    ========================= */
+
+    .tv-container {
+      width: 94vw;
+      height: 88vh;
+
+      position: absolute;
+      left: 3vw;
+      top: 6vh;
+
+      display: grid;
+      grid-template-columns: 32% 68%;
+      gap: 18px;
+    }
+
+    .left-panel,
+    .right-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* =========================
+       CARDS
+    ========================= */
+
+    .box {
+      position: relative;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(48, 27, 46, .96),
+          rgba(25, 14, 25, .96)
+        );
+
+      border: 1px solid rgba(232, 169, 193, .25);
+      border-radius: 26px;
+
+      box-shadow:
+        0 25px 60px rgba(0, 0, 0, .45),
+        inset 0 1px rgba(255,255,255,.04);
+
+      overflow: hidden;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      text-align: center;
+    }
+
+    .box::before {
+      content: "✧";
+
+      position: absolute;
+      top: 18px;
+      right: 25px;
+
+      color: rgba(232,169,193,.35);
+      font-size: 25px;
+    }
+
+    .box::after {
+      content: "";
+
+      position: absolute;
+      width: 180px;
+      height: 180px;
+
+      border-radius: 50%;
+
+      background: rgba(184,92,125,.06);
+      filter: blur(20px);
+
+      pointer-events: none;
+    }
+
+    /* =========================
+       PAINEL ESQUERDO
+    ========================= */
+
+    .local-box {
+      flex: 1;
+      padding: 25px;
+    }
+
+    .box-title {
+      color: #dca3ba;
+
+      font-size: 1.4vw;
+      font-weight: 700;
+
+      letter-spacing: 5px;
+      text-transform: uppercase;
+
+      margin-bottom: 12px;
+    }
+
+    .local-number {
+      font-family: "Cormorant Garamond", Georgia, serif;
+
+      color: #f7d9e5;
+
+      font-size: 9vw;
+      font-weight: 700;
+
+      line-height: .85;
+
+      text-shadow:
+        0 0 25px rgba(232,169,193,.2);
+    }
+
+    .local-type {
+      margin-top: 15px;
+
+      color: #a9909e;
+
+      font-size: 1.2vw;
+      font-weight: 600;
+
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       HISTÓRICO
+    ========================= */
+
+    .history-box {
+      flex: 1;
+
+      justify-content: flex-start;
+      align-items: stretch;
+
+      padding: 30px;
+    }
+
+    .history-box .box-title {
+      align-self: center;
+      font-size: 1.2vw;
+      margin-bottom: 25px;
+    }
+
+    #history-list {
+      list-style: none;
+      width: 100%;
+    }
+
+    #history-list li {
+      position: relative;
+
+      margin-bottom: 10px;
+      padding: 12px 15px;
+
+      color: #d9c1cc;
+
+      background: rgba(255,255,255,.035);
+
+      border: 1px solid rgba(232,169,193,.10);
+      border-radius: 12px;
+
+      font-size: 1vw;
+      font-weight: 600;
+
+      text-align: left;
+    }
+
+    #history-list li::before {
+      content: "♡";
+
+      color: #c87898;
+      margin-right: 8px;
+    }
+
+    /* =========================
+       PACIENTE
+    ========================= */
+
+    .patient-box {
+      flex: 3;
+
+      padding: 40px;
+    }
+
+    .patient-box .box-title {
+      font-size: 1.5vw;
+      letter-spacing: 7px;
+    }
+
+    .patient-name {
+      max-width: 90%;
+
+      color: #f7d9e5;
+
+      font-family: "Cormorant Garamond", Georgia, serif;
+
+      font-size: 6.5vw;
+      font-weight: 700;
+
+      line-height: 1;
+
+      word-break: break-word;
+
+      text-shadow:
+        0 0 35px rgba(232,169,193,.2);
+    }
+
+    /* =========================
+       LOGO
+    ========================= */
+
+    .logo-box {
+      flex: 1;
+
+      flex-direction: row;
+      gap: 20px;
+
+      padding: 20px;
+    }
+
+    .logo-icon {
+      width: 55px;
+      height: 55px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      border: 1px solid rgba(232,169,193,.3);
+
+      background: rgba(184,92,125,.12);
+
+      font-size: 25px;
+    }
+
+    .logo-text {
+      color: #e8a9c1;
+
+      font-family: "Cormorant Garamond", Georgia, serif;
+
+      font-size: 2.5vw;
+      font-weight: 700;
+
+      letter-spacing: 2px;
+    }
+
+    /* =========================
+       ANIMAÇÃO DA CHAMADA
+    ========================= */
+
+    @keyframes flash {
+
+      0% {
+        transform: scale(1);
+        box-shadow:
+          0 25px 60px rgba(0,0,0,.45);
+      }
+
+      25% {
+        transform: scale(1.015);
+        box-shadow:
+          0 0 60px rgba(232,169,193,.45),
+          0 25px 60px rgba(0,0,0,.45);
+      }
+
+      50% {
+        transform: scale(1);
+      }
+
+      75% {
+        transform: scale(1.015);
+        box-shadow:
+          0 0 60px rgba(232,169,193,.45),
+          0 25px 60px rgba(0,0,0,.45);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .flash {
+      animation: flash .5s ease 3;
+    }
+
+    /* =========================
+       RESPONSIVO
+    ========================= */
+
+    @media (max-width: 900px) {
+
+      .tv-container {
+        width: 94vw;
+        height: 92vh;
+        top: 4vh;
+
+        grid-template-columns: 1fr;
+      }
+
+      .left-panel {
+        display: none;
+      }
+
+      .right-panel {
+        width: 100%;
+      }
+
+      .patient-name {
+        font-size: 11vw;
+      }
+
+      .patient-box .box-title {
+        font-size: 3vw;
+      }
+
+      .logo-text {
+        font-size: 5vw;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- PAINEL PRINCIPAL DA TV -->
+
+  <div class="tv-container">
+
+    <!-- ESQUERDA -->
+
+    <div class="left-panel">
+
+      <div class="box local-box">
+
+        <div class="box-title" id="local-tipo">
+          GUICHÊ
+        </div>
+
+        <div class="local-number" id="local-numero">
+          --
+        </div>
+
+        <div class="local-type">
+          Aguarde sua chamada
+        </div>
+
+      </div>
+
+
+      <div class="box history-box">
+
+        <div class="box-title">
+          Últimas chamadas
+        </div>
+
+        <ul id="history-list"></ul>
+
+      </div>
+
+    </div>
+
+
+    <!-- DIREITA -->
+
+    <div class="right-panel">
+
+      <div class="box patient-box">
+
+        <div class="box-title">
+          Paciente
+        </div>
+
+        <div
+          class="patient-name"
+          id="patient-name"
+        >
+          AGUARDANDO...
+        </div>
+
+      </div>
+
+
+      <div class="box logo-box">
+
+        <div class="logo-icon">
+          🏥
+        </div>
+
+        <div class="logo-text">
+          Hospital Pro
+        </div>
+
+        <div style="color:#8f7885;font-size:1vw;">
+          ✦ Atendimento com cuidado ✦
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+<script>
+
+let ultimoId = null;
+
+
+// ======================================================
+// ATUALIZA A TV
+// ======================================================
+
+function atualizar() {
+
+  fetch("/tv/chamada")
+
+    .then(r => r.json())
+
+    .then(data => {
+
+      const chamada = data.chamada;
+      const historico = data.historico || [];
+
+
+      // ================================================
+      // CHAMADA ATUAL
+      // ================================================
+
+      if (chamada) {
+
+        document.getElementById("local-tipo").innerText =
+          chamada.localTipo || "GUICHÊ";
+
+        document.getElementById("local-numero").innerText =
+          chamada.localNumero || "--";
+
+        document.getElementById("patient-name").innerText =
+          chamada.paciente || "AGUARDANDO...";
+
+
+        // ============================================
+        // ANIMAÇÃO DA NOVA CHAMADA
+        // ============================================
+
+        if (chamada.id !== ultimoId) {
+
+          ultimoId = chamada.id;
+
+          const patientBox =
+            document.querySelector(".patient-box");
+
+          patientBox.classList.remove("flash");
+
+          void patientBox.offsetWidth;
+
+          patientBox.classList.add("flash");
+        }
+
+      }
+
+
+      // ================================================
+      // HISTÓRICO
+      // ================================================
+
+      const list =
+        document.getElementById("history-list");
+
+      list.innerHTML = "";
+
+
+      historico.slice(0, 4).forEach(h => {
+
+        const li =
+          document.createElement("li");
+
+        const tipo =
+          h.localTipo
+            ? h.localTipo.substring(0, 4)
+            : "GUIC";
+
+        li.innerText =
+          `${tipo}. ${h.localNumero} - ${h.paciente}`;
+
+        list.appendChild(li);
+
+      });
+
+    })
+
+    .catch(err => {
+
+      console.log(
+        "Erro ao buscar chamada:",
+        err
+      );
+
+    });
+
+}
+
+
+// Atualização inicial
+atualizar();
+
+
+// Atualiza a cada 2 segundos
+setInterval(atualizar, 2000);
+
+</script>
+
+</body>
+</html>
