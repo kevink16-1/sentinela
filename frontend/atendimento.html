@@ -1,20 +1,537 @@
 ```html
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Cadastro de Paciente</title>
+  <title>Atendimento | Hospital Pro</title>
 
-  <link rel="stylesheet" href="style.css">
+  <style>
+
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+    :root {
+      --bg: #09070b;
+      --bg2: #110c12;
+      --panel: #171018;
+      --panel2: #211621;
+
+      --pink: #d887aa;
+      --pink-light: #f0b9d0;
+      --rose: #9f5478;
+      --lilac: #b8a4d3;
+
+      --white: #fff5f8;
+      --text: #f5eaf0;
+      --muted: #ad98a4;
+
+      --line: rgba(255, 220, 235, 0.12);
+
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.52);
+    }
+
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+
+    body {
+
+      margin: 0;
+
+      color: var(--text);
+
+      font-family: "DM Sans", Arial, sans-serif;
+
+      background:
+
+        radial-gradient(
+          circle at 12% 8%,
+          rgba(216, 135, 170, 0.16),
+          transparent 28%
+        ),
+
+        radial-gradient(
+          circle at 88% 18%,
+          rgba(184, 164, 211, 0.12),
+          transparent 24%
+        ),
+
+        radial-gradient(
+          circle at 50% 100%,
+          rgba(159, 84, 120, 0.1),
+          transparent 35%
+        ),
+
+        var(--bg);
+
+      background-attachment: fixed;
+
+      padding: 40px 20px;
+    }
+
+
+    /* DECORAÇÕES */
+
+    body::before {
+
+      content: "✦ ･ﾟﾟ･ ✧ ･ﾟﾟ･ ✦";
+
+      position: fixed;
+
+      top: 18px;
+      left: 28px;
+
+      color: rgba(240, 185, 208, 0.22);
+
+      font-size: 18px;
+
+      letter-spacing: 8px;
+
+      pointer-events: none;
+
+      z-index: 0;
+    }
+
+
+    body::after {
+
+      content: "✧";
+
+      position: fixed;
+
+      right: 35px;
+      bottom: 25px;
+
+      color: rgba(184, 164, 211, 0.18);
+
+      font-size: 42px;
+
+      pointer-events: none;
+    }
+
+
+    /* CONTAINER */
+
+    .container {
+
+      position: relative;
+
+      z-index: 1;
+
+      width: min(92%, 980px);
+
+      margin: 0 auto;
+
+      padding: 38px;
+
+      background:
+
+        linear-gradient(
+          145deg,
+          rgba(32, 21, 31, 0.97),
+          rgba(17, 12, 19, 0.98)
+        );
+
+      border: 1px solid var(--line);
+
+      border-radius: 24px;
+
+      box-shadow: var(--shadow);
+
+      overflow: hidden;
+
+      animation: fadeIn 0.5s ease;
+    }
+
+
+    /* LINHA ROSA NO TOPO */
+
+    .container::before {
+
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: 0;
+      right: 0;
+
+      height: 2px;
+
+      background:
+
+        linear-gradient(
+          90deg,
+          transparent,
+          var(--pink),
+          var(--lilac),
+          var(--pink),
+          transparent
+        );
+
+      box-shadow: 0 0 18px rgba(216, 135, 170, 0.3);
+    }
+
+
+    /* ESTRELA */
+
+    .container::after {
+
+      content: "✦";
+
+      position: absolute;
+
+      top: 18px;
+      right: 25px;
+
+      color: rgba(240, 185, 208, 0.35);
+
+      font-size: 20px;
+    }
+
+
+    /* TÍTULO */
+
+    h2 {
+
+      margin: 0 0 32px;
+
+      font-family: "Cormorant Garamond", Georgia, serif;
+
+      font-size: 42px;
+
+      font-weight: 700;
+
+      color: var(--white);
+
+      letter-spacing: 0.5px;
+    }
+
+
+    h2::after {
+
+      content: "  ✧";
+
+      color: var(--pink-light);
+
+      font-size: 0.7em;
+    }
+
+
+    /* SUBTÍTULOS */
+
+    h3 {
+
+      margin: 30px 0 8px;
+
+      padding-bottom: 10px;
+
+      color: var(--pink-light);
+
+      font-family: "Cormorant Garamond", Georgia, serif;
+
+      font-size: 23px;
+
+      font-weight: 600;
+
+      border-bottom: 1px solid var(--line);
+
+      position: relative;
+    }
+
+
+    h3::after {
+
+      content: "✦";
+
+      color: var(--lilac);
+
+      font-size: 12px;
+
+      margin-left: 8px;
+    }
+
+
+    /* CAMPOS */
+
+    input,
+    select {
+
+      width: 100%;
+
+      padding: 14px 16px;
+
+      margin-top: 12px;
+
+      border-radius: 12px;
+
+      font-family: inherit;
+
+      font-size: 15px;
+
+      color: var(--text);
+
+      background: rgba(8, 6, 10, 0.72);
+
+      border: 1px solid var(--line);
+
+      outline: none;
+
+      transition: 0.22s ease;
+    }
+
+
+    input::placeholder {
+
+      color: #786672;
+    }
+
+
+    input:focus,
+    select:focus {
+
+      border-color: rgba(216, 135, 170, 0.65);
+
+      box-shadow:
+
+        0 0 0 3px rgba(216, 135, 170, 0.1),
+
+        0 0 28px rgba(216, 135, 170, 0.08);
+    }
+
+
+    select option {
+
+      background: #171018;
+
+      color: var(--text);
+    }
+
+
+    /* DATA */
+
+    input[type="date"] {
+
+      color: var(--muted);
+
+      cursor: pointer;
+    }
+
+
+    /* FOTO */
+
+    input[type="file"] {
+
+      padding: 10px;
+
+      cursor: pointer;
+
+      background: rgba(8, 6, 10, 0.8);
+    }
+
+
+    input[type="file"]::file-selector-button {
+
+      border: none;
+
+      border-radius: 9px;
+
+      padding: 9px 13px;
+
+      margin-right: 10px;
+
+      background: #6e3d58;
+
+      color: white;
+
+      font-family: inherit;
+
+      cursor: pointer;
+
+      transition: 0.2s;
+    }
+
+
+    input[type="file"]::file-selector-button:hover {
+
+      background: #9f5478;
+    }
+
+
+    /* BOTÃO */
+
+    button {
+
+      width: 100%;
+
+      padding: 15px 18px;
+
+      margin-top: 30px;
+
+      border-radius: 12px;
+
+      border: 1px solid rgba(255, 255, 255, 0.05);
+
+      color: white;
+
+      font-family: inherit;
+
+      font-size: 16px;
+
+      font-weight: 700;
+
+      cursor: pointer;
+
+      background:
+
+        linear-gradient(
+          135deg,
+          #d887aa,
+          #914d70
+        );
+
+      box-shadow:
+
+        0 9px 25px rgba(216, 135, 170, 0.18);
+
+      transition: 0.22s ease;
+    }
+
+
+    button:hover {
+
+      transform: translateY(-2px);
+
+      background:
+
+        linear-gradient(
+          135deg,
+          #f0b9d0,
+          #b9668f
+        );
+
+      box-shadow:
+
+        0 13px 32px rgba(216, 135, 170, 0.28);
+    }
+
+
+    button:active {
+
+      transform: translateY(0);
+    }
+
+
+    /* SEPARADORES */
+
+    h3 + input {
+
+      margin-top: 12px;
+    }
+
+
+    /* ANIMAÇÃO */
+
+    @keyframes fadeIn {
+
+      from {
+
+        opacity: 0;
+
+        transform: translateY(12px);
+      }
+
+      to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+      }
+    }
+
+
+    /* SCROLLBAR */
+
+    ::-webkit-scrollbar {
+
+      width: 8px;
+    }
+
+
+    ::-webkit-scrollbar-track {
+
+      background: #080609;
+    }
+
+
+    ::-webkit-scrollbar-thumb {
+
+      background:
+
+        linear-gradient(
+          var(--rose),
+          #625174
+        );
+
+      border-radius: 20px;
+    }
+
+
+    /* RESPONSIVO */
+
+    @media (max-width: 700px) {
+
+      body {
+
+        padding: 20px 10px;
+      }
+
+
+      .container {
+
+        width: 94%;
+
+        padding: 24px 20px;
+
+        border-radius: 18px;
+      }
+
+
+      h2 {
+
+        font-size: 34px;
+      }
+
+
+      h3 {
+
+        font-size: 21px;
+      }
+    }
+
+  </style>
+
 </head>
 
+
 <body>
+
 
 <div class="container">
 
   <h2>Cadastro de Paciente</h2>
+
 
   <!-- DADOS PESSOAIS -->
 
@@ -44,12 +561,29 @@
   >
 
   <select id="sexo">
-    <option value="">Sexo</option>
-    <option value="Masculino">Masculino</option>
-    <option value="Feminino">Feminino</option>
-    <option value="Outro">Outro</option>
-    <option value="Nao informado">Não informado</option>
+
+    <option value="">
+      Sexo
+    </option>
+
+    <option value="Masculino">
+      Masculino
+    </option>
+
+    <option value="Feminino">
+      Feminino
+    </option>
+
+    <option value="Outro">
+      Outro
+    </option>
+
+    <option value="Nao informado">
+      Não informado
+    </option>
+
   </select>
+
 
   <input
     id="nomemae"
@@ -57,17 +591,37 @@
     placeholder="Nome completo da mãe"
   >
 
+
   <select id="estadocivil">
-    <option value="">Estado civil</option>
-    <option value="Solteiro(a)">Solteiro(a)</option>
-    <option value="Casado(a)">Casado(a)</option>
-    <option value="Divorciado(a)">Divorciado(a)</option>
-    <option value="Viuvo(a)">Viúvo(a)</option>
-    <option value="Uniao estavel">União estável</option>
+
+    <option value="">
+      Estado civil
+    </option>
+
+    <option value="Solteiro(a)">
+      Solteiro(a)
+    </option>
+
+    <option value="Casado(a)">
+      Casado(a)
+    </option>
+
+    <option value="Divorciado(a)">
+      Divorciado(a)
+    </option>
+
+    <option value="Viuvo(a)">
+      Viúvo(a)
+    </option>
+
+    <option value="Uniao estavel">
+      União estável
+    </option>
+
   </select>
 
 
-  <!-- ENDEREÇO E CONTATO -->
+  <!-- ENDEREÇO -->
 
   <h3>Endereço e contato</h3>
 
@@ -90,7 +644,7 @@
   >
 
 
-  <!-- CONTATO DE EMERGÊNCIA -->
+  <!-- EMERGÊNCIA -->
 
   <h3>Contato de emergência</h3>
 
@@ -113,16 +667,30 @@
   >
 
 
-  <!-- DADOS DO ATENDIMENTO -->
+  <!-- ATENDIMENTO -->
 
   <h3>Dados do atendimento</h3>
 
   <select id="tipo">
-    <option value="">Tipo de atendimento</option>
-    <option value="Convenio">Convênio</option>
-    <option value="Particular">Particular</option>
-    <option value="SUS">SUS</option>
+
+    <option value="">
+      Tipo de atendimento
+    </option>
+
+    <option value="Convenio">
+      Convênio
+    </option>
+
+    <option value="Particular">
+      Particular
+    </option>
+
+    <option value="SUS">
+      SUS
+    </option>
+
   </select>
+
 
   <input
     id="convenio"
@@ -137,7 +705,7 @@
   >
 
 
-  <!-- FOTO -->
+  <!-- IDENTIFICAÇÃO -->
 
   <h3>Identificação</h3>
 
@@ -148,11 +716,10 @@
   >
 
 
-  <!-- BOTÃO -->
-
   <button onclick="cadastrar()">
-    Cadastrar paciente
+    ✦ Cadastrar paciente ✦
   </button>
+
 
 </div>
 
@@ -163,123 +730,171 @@ function cadastrar() {
 
   const paciente = {
 
-    // Dados pessoais
     nome: document.getElementById("nome").value,
+
     documento: document.getElementById("documento").value,
+
     rg: document.getElementById("rg").value,
-    datadenascimento: document.getElementById("datadenascimento").value,
-    sexo: document.getElementById("sexo").value,
-    nomemae: document.getElementById("nomemae").value,
-    estadocivil: document.getElementById("estadocivil").value,
 
-    // Contato
-    endereco: document.getElementById("endereco").value,
-    telefone: document.getElementById("telefone").value,
-    email: document.getElementById("email").value,
+    datadenascimento:
+      document.getElementById("datadenascimento").value,
 
-    // Emergência
-    contatoemergencia: document.getElementById("contatoemergencia").value,
-    telefoneemergencia: document.getElementById("telefoneemergencia").value,
-    parentesco: document.getElementById("parentesco").value,
+    sexo:
+      document.getElementById("sexo").value,
 
-    // Atendimento
-    tipo: document.getElementById("tipo").value,
-    convenio: document.getElementById("convenio").value,
-    numerocarteirinha: document.getElementById("numerocarteirinha").value
+    nomemae:
+      document.getElementById("nomemae").value,
+
+    estadocivil:
+      document.getElementById("estadocivil").value,
+
+    endereco:
+      document.getElementById("endereco").value,
+
+    telefone:
+      document.getElementById("telefone").value,
+
+    email:
+      document.getElementById("email").value,
+
+    contatoemergencia:
+      document.getElementById("contatoemergencia").value,
+
+    telefoneemergencia:
+      document.getElementById("telefoneemergencia").value,
+
+    parentesco:
+      document.getElementById("parentesco").value,
+
+    tipo:
+      document.getElementById("tipo").value,
+
+    convenio:
+      document.getElementById("convenio").value,
+
+    numerocarteirinha:
+      document.getElementById("numerocarteirinha").value
 
   };
 
 
-  // Validação básica
+  /* VALIDAÇÃO */
 
   if (!paciente.nome) {
+
     alert("Informe o nome do paciente.");
+
     return;
   }
+
 
   if (!paciente.documento) {
-    alert("Informe o documento do paciente.");
+
+    alert("Informe o CPF do paciente.");
+
     return;
   }
+
 
   if (!paciente.datadenascimento) {
+
     alert("Informe a data de nascimento.");
+
     return;
   }
+
 
   if (!paciente.sexo) {
+
     alert("Selecione o sexo.");
+
     return;
   }
+
 
   if (!paciente.tipo) {
+
     alert("Selecione o tipo de atendimento.");
+
     return;
   }
 
 
-  // Enviar para o servidor
+  /* ENVIO */
 
   fetch("http://localhost:3000/atendimento", {
 
     method: "POST",
 
     headers: {
+
       "Content-Type": "application/json"
+
     },
 
     body: JSON.stringify(paciente)
 
   })
 
+
   .then(response => {
 
     if (!response.ok) {
-      throw new Error("Erro ao cadastrar paciente.");
+
+      throw new Error(
+        "Erro ao cadastrar paciente."
+      );
+
     }
 
     return response.json();
 
   })
 
+
   .then(data => {
 
-    console.log("Paciente cadastrado:", data);
+    console.log(
+      "Paciente cadastrado:",
+      data
+    );
 
-    alert("✦ Paciente cadastrado e enviado para triagem ✦");
 
-    // Limpa o formulário
-    document.querySelector("form");
+    alert(
+      "✦ Paciente cadastrado e enviado para triagem ✦"
+    );
 
-    document.getElementById("nome").value = "";
-    document.getElementById("documento").value = "";
-    document.getElementById("rg").value = "";
-    document.getElementById("datadenascimento").value = "";
-    document.getElementById("sexo").value = "";
-    document.getElementById("nomemae").value = "";
-    document.getElementById("estadocivil").value = "";
 
-    document.getElementById("endereco").value = "";
-    document.getElementById("telefone").value = "";
-    document.getElementById("email").value = "";
+    /* LIMPAR FORMULÁRIO */
 
-    document.getElementById("contatoemergencia").value = "";
-    document.getElementById("telefoneemergencia").value = "";
-    document.getElementById("parentesco").value = "";
+    document.querySelectorAll(
+      "input"
+    ).forEach(input => {
 
-    document.getElementById("tipo").value = "";
-    document.getElementById("convenio").value = "";
-    document.getElementById("numerocarteirinha").value = "";
+      input.value = "";
 
-    document.getElementById("foto").value = "";
+    });
+
+
+    document.querySelectorAll(
+      "select"
+    ).forEach(select => {
+
+      select.selectedIndex = 0;
+
+    });
 
   })
+
 
   .catch(error => {
 
     console.error(error);
 
-    alert("Erro ao cadastrar paciente. Verifique se o servidor está funcionando.");
+    alert(
+      "Erro ao cadastrar paciente. " +
+      "Verifique se o servidor está funcionando."
+    );
 
   });
 
@@ -287,6 +902,8 @@ function cadastrar() {
 
 </script>
 
+
 </body>
+
 </html>
 ```
