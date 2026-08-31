@@ -1,100 +1,292 @@
 ```html
 <!DOCTYPE html>
-<html>
-<head><link rel="stylesheet" href="style.css"></head>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Cadastro de Paciente</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
 <body>
+
 <div class="container">
-<h2>Cadastro de Paciente</h2>
 
-<h3>Dados pessoais</h3>
+  <h2>Cadastro de Paciente</h2>
 
-<input id="nome" placeholder="Nome completo">
-<input id="documento" placeholder="CPF">
-<input id="rg" placeholder="RG">
-<input id="datadenascimento" type="date">
+  <!-- DADOS PESSOAIS -->
 
-<select id="sexo">
-  <option value="">Sexo</option>
-  <option>Masculino</option>
-  <option>Feminino</option>
-  <option>Outro</option>
-  <option>Não informado</option>
-</select>
+  <h3>Dados pessoais</h3>
 
-<input id="nomemae" placeholder="Nome completo da mãe">
+  <input
+    id="nome"
+    type="text"
+    placeholder="Nome completo"
+  >
 
-<select id="estadocivil">
-  <option value="">Estado civil</option>
-  <option>Solteiro(a)</option>
-  <option>Casado(a)</option>
-  <option>Divorciado(a)</option>
-  <option>Viúvo(a)</option>
-  <option>União estável</option>
-</select>
+  <input
+    id="documento"
+    type="text"
+    placeholder="CPF"
+  >
+
+  <input
+    id="rg"
+    type="text"
+    placeholder="RG"
+  >
+
+  <input
+    id="datadenascimento"
+    type="date"
+  >
+
+  <select id="sexo">
+    <option value="">Sexo</option>
+    <option value="Masculino">Masculino</option>
+    <option value="Feminino">Feminino</option>
+    <option value="Outro">Outro</option>
+    <option value="Nao informado">Não informado</option>
+  </select>
+
+  <input
+    id="nomemae"
+    type="text"
+    placeholder="Nome completo da mãe"
+  >
+
+  <select id="estadocivil">
+    <option value="">Estado civil</option>
+    <option value="Solteiro(a)">Solteiro(a)</option>
+    <option value="Casado(a)">Casado(a)</option>
+    <option value="Divorciado(a)">Divorciado(a)</option>
+    <option value="Viuvo(a)">Viúvo(a)</option>
+    <option value="Uniao estavel">União estável</option>
+  </select>
 
 
-<h3>Endereço e contato</h3>
+  <!-- ENDEREÇO E CONTATO -->
 
-<input id="endereco" placeholder="Endereço completo">
-<input id="telefone" placeholder="Telefone">
-<input id="email" type="email" placeholder="E-mail">
+  <h3>Endereço e contato</h3>
+
+  <input
+    id="endereco"
+    type="text"
+    placeholder="Endereço completo"
+  >
+
+  <input
+    id="telefone"
+    type="tel"
+    placeholder="Telefone"
+  >
+
+  <input
+    id="email"
+    type="email"
+    placeholder="E-mail"
+  >
 
 
-<h3>Contato de emergência</h3>
+  <!-- CONTATO DE EMERGÊNCIA -->
 
-<input id="contatoemergencia" placeholder="Nome do contato de emergência">
-<input id="telefoneemergencia" placeholder="Telefone do contato de emergência">
-<input id="parentesco" placeholder="Grau de parentesco">
+  <h3>Contato de emergência</h3>
+
+  <input
+    id="contatoemergencia"
+    type="text"
+    placeholder="Nome do contato de emergência"
+  >
+
+  <input
+    id="telefoneemergencia"
+    type="tel"
+    placeholder="Telefone do contato de emergência"
+  >
+
+  <input
+    id="parentesco"
+    type="text"
+    placeholder="Grau de parentesco"
+  >
 
 
-<h3>Dados do atendimento</h3>
+  <!-- DADOS DO ATENDIMENTO -->
 
-<select id="tipo">
-  <option value="">Tipo de atendimento</option>
-  <option>Convênio</option>
-  <option>Particular</option>
-  <option>SUS</option>
-</select>
+  <h3>Dados do atendimento</h3>
 
-<input id="convenio" placeholder="Nome do convênio (se houver)">
-<input id="numerocarteirinha" placeholder="Número da carteirinha">
+  <select id="tipo">
+    <option value="">Tipo de atendimento</option>
+    <option value="Convenio">Convênio</option>
+    <option value="Particular">Particular</option>
+    <option value="SUS">SUS</option>
+  </select>
 
-<h3>Identificação</h3>
+  <input
+    id="convenio"
+    type="text"
+    placeholder="Nome do convênio (se houver)"
+  >
 
-<input type="file" id="foto" accept="image/*">
+  <input
+    id="numerocarteirinha"
+    type="text"
+    placeholder="Número da carteirinha"
+  >
 
-<button onclick="cadastrar()">Cadastrar paciente</button>
+
+  <!-- FOTO -->
+
+  <h3>Identificação</h3>
+
+  <input
+    type="file"
+    id="foto"
+    accept="image/*"
+  >
+
+
+  <!-- BOTÃO -->
+
+  <button onclick="cadastrar()">
+    Cadastrar paciente
+  </button>
+
 </div>
 
-<script>
-function cadastrar(){
- fetch("http://localhost:3000/atendimento",{
-  method:"POST",
-  headers:{"Content-Type":"application/json"},
-  body: JSON.stringify({
-    nome: nome.value,
-    documento: documento.value,
-    rg: rg.value,
-    datadenascimento: datadenascimento.value,
-    sexo: sexo.value,
-    nomemae: nomemae.value,
-    estadocivil: estadocivil.value,
-    endereco: endereco.value,
-    telefone: telefone.value,
-    email: email.value,
-    contatoemergencia: contatoemergencia.value,
-    telefoneemergencia: telefoneemergencia.value,
-    parentesco: parentesco.value,
-    tipo: tipo.value,
-    convenio: convenio.value,
-    numerocarteirinha: numerocarteirinha.value
-  })
- });
 
- alert("Paciente cadastrado e enviado para triagem");
+<script>
+
+function cadastrar() {
+
+  const paciente = {
+
+    // Dados pessoais
+    nome: document.getElementById("nome").value,
+    documento: document.getElementById("documento").value,
+    rg: document.getElementById("rg").value,
+    datadenascimento: document.getElementById("datadenascimento").value,
+    sexo: document.getElementById("sexo").value,
+    nomemae: document.getElementById("nomemae").value,
+    estadocivil: document.getElementById("estadocivil").value,
+
+    // Contato
+    endereco: document.getElementById("endereco").value,
+    telefone: document.getElementById("telefone").value,
+    email: document.getElementById("email").value,
+
+    // Emergência
+    contatoemergencia: document.getElementById("contatoemergencia").value,
+    telefoneemergencia: document.getElementById("telefoneemergencia").value,
+    parentesco: document.getElementById("parentesco").value,
+
+    // Atendimento
+    tipo: document.getElementById("tipo").value,
+    convenio: document.getElementById("convenio").value,
+    numerocarteirinha: document.getElementById("numerocarteirinha").value
+
+  };
+
+
+  // Validação básica
+
+  if (!paciente.nome) {
+    alert("Informe o nome do paciente.");
+    return;
+  }
+
+  if (!paciente.documento) {
+    alert("Informe o documento do paciente.");
+    return;
+  }
+
+  if (!paciente.datadenascimento) {
+    alert("Informe a data de nascimento.");
+    return;
+  }
+
+  if (!paciente.sexo) {
+    alert("Selecione o sexo.");
+    return;
+  }
+
+  if (!paciente.tipo) {
+    alert("Selecione o tipo de atendimento.");
+    return;
+  }
+
+
+  // Enviar para o servidor
+
+  fetch("http://localhost:3000/atendimento", {
+
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify(paciente)
+
+  })
+
+  .then(response => {
+
+    if (!response.ok) {
+      throw new Error("Erro ao cadastrar paciente.");
+    }
+
+    return response.json();
+
+  })
+
+  .then(data => {
+
+    console.log("Paciente cadastrado:", data);
+
+    alert("✦ Paciente cadastrado e enviado para triagem ✦");
+
+    // Limpa o formulário
+    document.querySelector("form");
+
+    document.getElementById("nome").value = "";
+    document.getElementById("documento").value = "";
+    document.getElementById("rg").value = "";
+    document.getElementById("datadenascimento").value = "";
+    document.getElementById("sexo").value = "";
+    document.getElementById("nomemae").value = "";
+    document.getElementById("estadocivil").value = "";
+
+    document.getElementById("endereco").value = "";
+    document.getElementById("telefone").value = "";
+    document.getElementById("email").value = "";
+
+    document.getElementById("contatoemergencia").value = "";
+    document.getElementById("telefoneemergencia").value = "";
+    document.getElementById("parentesco").value = "";
+
+    document.getElementById("tipo").value = "";
+    document.getElementById("convenio").value = "";
+    document.getElementById("numerocarteirinha").value = "";
+
+    document.getElementById("foto").value = "";
+
+  })
+
+  .catch(error => {
+
+    console.error(error);
+
+    alert("Erro ao cadastrar paciente. Verifique se o servidor está funcionando.");
+
+  });
+
 }
+
 </script>
+
 </body>
 </html>
 ```
-d
