@@ -427,7 +427,15 @@ const PORT =
 app.listen(PORT, () => {
 
   console.log(
-    `🏥 Hospital Pro rodando em http://localhost:${PORT}`
+```js
+// START
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`🏥 Hospital Pro rodando na porta ${PORT}`);
+});
+```
+
   );
 
 });
