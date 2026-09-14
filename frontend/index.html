@@ -1,99 +1,549 @@
 ```html
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Sistema Hospitalar</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-family: "DM Sans", Arial, sans-serif;
+            color: #f5eaf0;
+
+            background:
+                radial-gradient(
+                    circle at 15% 15%,
+                    rgba(216, 135, 170, 0.18),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(184, 164, 211, 0.14),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 50% 100%,
+                    rgba(159, 84, 120, 0.14),
+                    transparent 40%
+                ),
+                #09070b;
+
+            overflow: hidden;
+        }
+
+
+        /* =========================
+           DECORAÇÕES DO FUNDO
+        ========================= */
+
+        body::before {
+            content: "✦ ･ﾟﾟ･ ✧ ･ﾟﾟ･ ♡ ･ﾟﾟ･ ✦";
+
+            position: fixed;
+            top: 35px;
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            color: rgba(240, 185, 208, 0.30);
+
+            font-size: 17px;
+            letter-spacing: 8px;
+
+            white-space: nowrap;
+
+            pointer-events: none;
+        }
+
+        body::after {
+            content: "✧";
+
+            position: fixed;
+
+            right: 8%;
+            bottom: 8%;
+
+            color: rgba(216, 135, 170, 0.18);
+
+            font-size: 70px;
+
+            transform: rotate(15deg);
+
+            pointer-events: none;
+        }
+
+
+        /* =========================
+           LOGIN
+        ========================= */
+
+        .login-page {
+            width: 100%;
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 25px;
+        }
+
+
+        /* =========================
+           CARD
+        ========================= */
+
+        .container {
+            position: relative;
+
+            width: 420px;
+            max-width: 100%;
+
+            padding: 45px 42px 38px;
+
+            text-align: center;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(37, 24, 35, 0.98),
+                    rgba(15, 10, 16, 0.99)
+                );
+
+            border: 1px solid rgba(216, 135, 170, 0.28);
+
+            border-radius: 28px;
+
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.65),
+                0 0 50px rgba(159, 84, 120, 0.13);
+
+            animation: aparecer 0.6s ease;
+        }
+
+
+        /* linha decorativa superior */
+
+        .container::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 8%;
+            right: 8%;
+
+            height: 2px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    #d887aa,
+                    #b8a4d3,
+                    #d887aa,
+                    transparent
+                );
+
+            box-shadow:
+                0 0 18px rgba(216, 135, 170, 0.4);
+        }
+
+
+        /* coração */
+
+        .container::after {
+            content: "♡";
+
+            position: absolute;
+
+            top: 13px;
+            right: 20px;
+
+            color: rgba(240, 185, 208, 0.45);
+
+            font-size: 20px;
+        }
+
+
+        /* =========================
+           ÍCONE
+        ========================= */
+
+        .login-brand {
+            font-size: 55px;
+
+            margin-bottom: 3px;
+
+            filter:
+                drop-shadow(
+                    0 0 18px
+                    rgba(216, 135, 170, 0.30)
+                );
+        }
+
+
+        /* =========================
+           ORNAMENTO
+        ========================= */
+
+        .login-ornament {
+            margin-bottom: 8px;
+
+            color: #f0b9d0;
+
+            font-size: 13px;
+
+            letter-spacing: 6px;
+        }
+
+
+        /* =========================
+           TÍTULO
+        ========================= */
+
+        h2 {
+            margin: 0 0 8px;
+
+            font-family:
+                "Cormorant Garamond",
+                Georgia,
+                serif;
+
+            font-size: 42px;
+
+            font-weight: 700;
+
+            color: #fff5f8;
+
+            text-shadow:
+                0 0 20px
+                rgba(216, 135, 170, 0.18);
+        }
+
+
+        /* =========================
+           SUBTÍTULO
+        ========================= */
+
+        .login-subtitle {
+            margin: 0 0 27px;
+
+            color: #ad98a4;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           INPUTS
+        ========================= */
+
+        input {
+            display: block;
+
+            width: 100%;
+            height: 52px;
+
+            margin-bottom: 15px;
+
+            padding: 0 17px;
+
+            border: 1px solid rgba(255, 220, 235, 0.12);
+
+            border-radius: 13px;
+
+            outline: none;
+
+            background: rgba(7, 5, 9, 0.78);
+
+            color: #f5eaf0;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            transition: 0.25s ease;
+        }
+
+
+        input::placeholder {
+            color: #786672;
+        }
+
+
+        input:focus {
+            border-color: rgba(216, 135, 170, 0.70);
+
+            box-shadow:
+                0 0 0 3px rgba(216, 135, 170, 0.10),
+                0 0 25px rgba(216, 135, 170, 0.10);
+        }
+
+
+        /* =========================
+           BOTÃO
+        ========================= */
+
+        button {
+            display: block;
+
+            width: 100%;
+            height: 53px;
+
+            margin-top: 7px;
+
+            border: none;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #d887aa,
+                    #914d70
+                );
+
+            color: white;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.4px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 28px
+                rgba(216, 135, 170, 0.20);
+
+            transition: 0.25s ease;
+        }
+
+
+        button::after {
+            content: "  ♡";
+
+            opacity: 0.85;
+        }
+
+
+        button:hover {
+            transform: translateY(-2px);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f0b9d0,
+                    #b9668f
+                );
+
+            box-shadow:
+                0 14px 35px
+                rgba(216, 135, 170, 0.32);
+        }
+
+
+        button:active {
+            transform: translateY(0);
+        }
+
+
+        /* =========================
+           RODAPÉ
+        ========================= */
+
+        .login-note {
+            margin-top: 20px;
+
+            color: #76646f;
+
+            font-size: 11px;
+
+            letter-spacing: 0.3px;
+        }
+
+
+        /* =========================
+           ANIMAÇÃO
+        ========================= */
+
+        @keyframes aparecer {
+
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
+        }
+
+
+        /* =========================
+           CELULAR
+        ========================= */
+
+        @media (max-width: 500px) {
+
+            .login-page {
+                padding: 18px;
+            }
+
+            .container {
+                padding: 38px 25px 30px;
+            }
+
+            h2 {
+                font-size: 34px;
+            }
+
+        }
+
+    </style>
 </head>
+
 
 <body>
 
-<div class="login-page">
+    <div class="login-page">
 
-    <div class="container">
+        <div class="container">
 
-        <div class="login-brand">🏥</div>
+            <div class="login-brand">
+                🏥
+            </div>
 
-        <div class="login-ornament">✦ ･ﾟﾟ･ ♡ ･ﾟﾟ･ ✦</div>
+            <div class="login-ornament">
+                ✦ ･ﾟﾟ･ ♡ ･ﾟﾟ･ ✦
+            </div>
 
-        <h2>Sistema Hospitalar</h2>
+            <h2>
+                Sistema Hospitalar
+            </h2>
 
-        <p class="login-subtitle">
-            Acesso restrito aos profissionais
-        </p>
+            <p class="login-subtitle">
+                Acesso restrito aos profissionais
+            </p>
 
-        <input
-            id="usuario"
-            type="text"
-            placeholder="Usuário"
-            autocomplete="username"
-        >
+            <input
+                id="usuario"
+                type="text"
+                placeholder="Usuário"
+                autocomplete="username"
+            >
 
-        <input
-            id="senha"
-            type="password"
-            placeholder="Senha"
-            autocomplete="current-password"
-        >
+            <input
+                id="senha"
+                type="password"
+                placeholder="Senha"
+                autocomplete="current-password"
+            >
 
-        <button onclick="login()">
-            Entrar
-        </button>
+            <button onclick="login()">
+                Entrar
+            </button>
 
-        <p class="login-note">
-            ✧ Ambiente seguro e protegido ✧
-        </p>
+            <p class="login-note">
+                ✧ Ambiente seguro e protegido ✧
+            </p>
+
+        </div>
 
     </div>
 
-</div>
 
-<script>
-function login() {
+    <script>
 
-    fetch("/login", {
+        function login() {
 
-        method: "POST",
+            const usuario =
+                document.getElementById("usuario").value;
 
-        headers: {
-            "Content-Type": "application/json"
-        },
+            const senha =
+                document.getElementById("senha").value;
 
-        body: JSON.stringify({
-            usuario: document.getElementById("usuario").value,
-            senha: document.getElementById("senha").value
-        })
 
-    })
+            fetch("/login", {
 
-    .then(r => r.json())
+                method: "POST",
 
-    .then(data => {
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-        if (data.tipo === "triagem") {
-            location.href = "triagem.html";
+                body: JSON.stringify({
+                    usuario: usuario,
+                    senha: senha
+                })
+
+            })
+
+            .then(r => r.json())
+
+            .then(data => {
+
+                if (data.tipo === "triagem") {
+                    location.href = "triagem.html";
+                }
+
+                if (data.tipo === "medico") {
+                    location.href = "medico.html";
+                }
+
+                if (data.tipo === "atendimento") {
+                    location.href = "atendimento.html";
+                }
+
+            })
+
+            .catch(error => {
+
+                console.error(
+                    "Erro no login:",
+                    error
+                );
+
+            });
+
         }
 
-        if (data.tipo === "medico") {
-            location.href = "medico.html";
-        }
-
-        if (data.tipo === "atendimento") {
-            location.href = "atendimento.html";
-        }
-
-    })
-
-    .catch(error => {
-        console.error("Erro no login:", error);
-    });
-}
-</script>
+    </script>
 
 </body>
+
 </html>
 ```
