@@ -1,36 +1,99 @@
+```html
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sistema Hospitalar</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<div class="container">
-  <h2>🏥 Sistema Hospitalar</h2>
-  <input id="usuario" placeholder="Usuário">
-  <input id="senha" type="password" placeholder="Senha">
-  <button onclick="login()">Entrar</button>
+
+<div class="login-page">
+
+    <div class="container">
+
+        <div class="login-brand">🏥</div>
+
+        <div class="login-ornament">✦ ･ﾟﾟ･ ♡ ･ﾟﾟ･ ✦</div>
+
+        <h2>Sistema Hospitalar</h2>
+
+        <p class="login-subtitle">
+            Acesso restrito aos profissionais
+        </p>
+
+        <input
+            id="usuario"
+            type="text"
+            placeholder="Usuário"
+            autocomplete="username"
+        >
+
+        <input
+            id="senha"
+            type="password"
+            placeholder="Senha"
+            autocomplete="current-password"
+        >
+
+        <button onclick="login()">
+            Entrar
+        </button>
+
+        <p class="login-note">
+            ✧ Ambiente seguro e protegido ✧
+        </p>
+
+    </div>
+
 </div>
 
 <script>
 function login() {
-  
-    fetch("/login", {
-      
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      usuario: usuario.value,
-      senha: senha.value
-    })
-  })
-  .then(r => r.json())
-  .then(data => {
-    if(data.tipo === "triagem") location.href = "triagem.html";
-    if(data.tipo === "medico") location.href = "medico.html";
-    if(data.tipo === "atendimento") location.href = "atendimento.html";
-  });
-}
 
+    fetch("/login", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            usuario: document.getElementById("usuario").value,
+            senha: document.getElementById("senha").value
+        })
+
+    })
+
+    .then(r => r.json())
+
+    .then(data => {
+
+        if (data.tipo === "triagem") {
+            location.href = "triagem.html";
+        }
+
+        if (data.tipo === "medico") {
+            location.href = "medico.html";
+        }
+
+        if (data.tipo === "atendimento") {
+            location.href = "atendimento.html";
+        }
+
+    })
+
+    .catch(error => {
+        console.error("Erro no login:", error);
+    });
+}
 </script>
+
 </body>
-</html> 
+</html>
+```
