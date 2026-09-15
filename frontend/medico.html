@@ -62,7 +62,7 @@
       border-radius: 4px;
     }
 
-    /* ÁREA DA ALTA */
+    /* Área da alta */
     .alta-area {
       margin-top: 25px;
       padding-top: 20px;
@@ -96,7 +96,10 @@
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
     <h2 style="margin:0;">🩺 Painel Médico</h2>
 
-    <button class="btn-abrir-tv" onclick="window.open('tv.html','_blank')">
+    <button
+      class="btn-abrir-tv"
+      onclick="window.open('tv.html','_blank')"
+    >
       📺 Abrir Tela da TV
     </button>
   </div>
@@ -309,7 +312,8 @@ function selecionar(index) {
 
   const t = triagensCarregadas[index];
 
-  document.getElementById("paciente").value = t.nome;
+  document.getElementById("paciente").value =
+    t.nome;
 
   document.getElementById("obs").value =
     t.observacao || "";
@@ -489,6 +493,22 @@ function darAlta() {
 
 
   /* =================================================
+     DATA E HORA DA ALTA
+  ================================================= */
+
+  const agora = new Date();
+
+  const dataAtual =
+    agora.toLocaleDateString("pt-BR");
+
+  const horaAtual =
+    agora.toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
+
+  /* =================================================
      GERAÇÃO DO PDF
   ================================================= */
 
@@ -536,6 +556,8 @@ function darAlta() {
   let y = 60;
 
 
+  /* Paciente */
+
   doc.setFont(undefined, "bold");
 
   doc.text(
@@ -556,6 +578,8 @@ function darAlta() {
   y += 15;
 
 
+  /* Diagnóstico */
+
   doc.setFont(undefined, "bold");
 
   doc.text(
@@ -566,15 +590,24 @@ function darAlta() {
 
   doc.setFont(undefined, "normal");
 
+  const linhasDiagnostico =
+    doc.splitTextToSize(
+      diagnostico,
+      135
+    );
+
   doc.text(
-    diagnostico,
+    linhasDiagnostico,
     55,
     y
   );
 
+  y +=
+    Math.max(linhasDiagnostico.length, 1) * 7 +
+    8;
 
-  y += 15;
 
+  /* Medicação */
 
   doc.setFont(undefined, "bold");
 
@@ -595,6 +628,8 @@ function darAlta() {
 
   y += 15;
 
+
+  /* Observações */
 
   doc.setFont(undefined, "bold");
 
@@ -628,10 +663,6 @@ function darAlta() {
 
   /* Data */
 
-  const dataAtual =
-    new Date().toLocaleDateString("pt-BR");
-
-
   doc.setFont(undefined, "bold");
 
   doc.text(
@@ -644,6 +675,28 @@ function darAlta() {
 
   doc.text(
     dataAtual,
+    55,
+    y
+  );
+
+
+  y += 10;
+
+
+  /* Hora */
+
+  doc.setFont(undefined, "bold");
+
+  doc.text(
+    "Hora da alta:",
+    20,
+    y
+  );
+
+  doc.setFont(undefined, "normal");
+
+  doc.text(
+    horaAtual,
     55,
     y
   );
@@ -668,7 +721,9 @@ function darAlta() {
   );
 
 
-  /* Salvar PDF */
+  /* =================================================
+     NOME DO ARQUIVO
+  ================================================= */
 
   const nomeArquivo =
     "alta-" +
@@ -678,10 +733,14 @@ function darAlta() {
     ".pdf";
 
 
+  /* Gera o PDF */
+
   doc.save(nomeArquivo);
 
 
-  /* Limpa formulário */
+  /* =================================================
+     LIMPAR FORMULÁRIO
+  ================================================= */
 
   document.getElementById("paciente").value = "";
 
@@ -726,4 +785,3 @@ setInterval(
 </body>
 </html>
 ```
-
