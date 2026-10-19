@@ -2,8 +2,11 @@
 <html lang="pt-BR">
 
 <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Painel Médico</title>
 
   <link rel="stylesheet" href="css/style.css">
@@ -12,7 +15,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <style>
-    /* ESTRUTURA GERAL */
+
+    /* =====================================================
+       ESTRUTURA GERAL
+    ===================================================== */
+
     .painel-topo {
       display: flex;
       justify-content: space-between;
@@ -26,13 +33,18 @@
       margin: 0;
     }
 
-    /* CONSULTÓRIO */
+
+    /* =====================================================
+       CONSULTÓRIO
+    ===================================================== */
+
     .consultorio-box {
       background: #f0f4ff;
       border: 1px solid #d0d8f0;
       border-radius: 10px;
       padding: 15px 18px;
       margin-bottom: 20px;
+
       display: flex;
       align-items: center;
       gap: 12px;
@@ -53,7 +65,11 @@
       border-radius: 6px;
     }
 
-    /* SEÇÕES */
+
+    /* =====================================================
+       SEÇÕES
+    ===================================================== */
+
     .secao {
       background: white;
       border: 1px solid #ddd;
@@ -65,11 +81,14 @@
 
     .secao-cabecalho {
       padding: 17px 20px;
+
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       cursor: pointer;
       background: #fafafa;
+
       border-bottom: 1px solid #eee;
     }
 
@@ -91,7 +110,11 @@
       display: none;
     }
 
-    /* BOTÃO ABRIR / FECHAR */
+
+    /* =====================================================
+       BOTÃO ABRIR / FECHAR
+    ===================================================== */
+
     .btn-toggle {
       background: #6c757d;
       color: white;
@@ -105,7 +128,11 @@
       background: #545b62;
     }
 
-    /* CARDS DOS PACIENTES */
+
+    /* =====================================================
+       CARDS DOS PACIENTES
+    ===================================================== */
+
     .card-paciente {
       border: 1px solid #ddd;
       border-radius: 9px;
@@ -131,7 +158,11 @@
       margin-top: 14px;
     }
 
-    /* BOTÕES */
+
+    /* =====================================================
+       BOTÕES
+    ===================================================== */
+
     .btn {
       border: none;
       padding: 9px 15px;
@@ -197,7 +228,11 @@
       margin-top: 12px;
     }
 
-    /* FORMULÁRIOS */
+
+    /* =====================================================
+       FORMULÁRIOS
+    ===================================================== */
+
     .form-grupo {
       margin-bottom: 15px;
     }
@@ -211,11 +246,15 @@
     .form-grupo input,
     .form-grupo select,
     .form-grupo textarea {
+
       width: 100%;
       box-sizing: border-box;
+
       padding: 10px;
+
       border: 1px solid #ccc;
       border-radius: 6px;
+
       font-size: 14px;
     }
 
@@ -224,7 +263,11 @@
       resize: vertical;
     }
 
-    /* GRID DA INTERNAÇÃO */
+
+    /* =====================================================
+       GRID DA INTERNAÇÃO
+    ===================================================== */
+
     .internacao-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -232,18 +275,29 @@
     }
 
     @media (max-width: 700px) {
+
       .internacao-grid {
         grid-template-columns: 1fr;
       }
+
     }
 
-    /* PACIENTE SELECIONADO */
+
+    /* =====================================================
+       PACIENTE SELECIONADO
+    ===================================================== */
+
     .paciente-selecionado {
+
       background: #eef5ff;
       border: 1px solid #c9ddff;
+
       padding: 12px 15px;
+
       border-radius: 7px;
+
       margin-bottom: 18px;
+
       font-size: 14px;
     }
 
@@ -251,26 +305,43 @@
       color: #0056b3;
     }
 
-    /* STATUS DE RISCO */
+
+    /* =====================================================
+       STATUS DE RISCO
+    ===================================================== */
+
     .risco {
       font-weight: bold;
     }
 
-    /* MENSAGEM VAZIA */
+
+    /* =====================================================
+       MENSAGEM VAZIA
+    ===================================================== */
+
     .vazio {
       text-align: center;
       color: #888;
       padding: 20px;
     }
+
   </style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
 
-  <!-- CABEÇALHO -->
+
+  <!-- =====================================================
+       CABEÇALHO
+  ===================================================== -->
+
   <div class="painel-topo">
+
     <h2>🩺 Painel Médico</h2>
 
     <button
@@ -279,11 +350,19 @@
     >
       📺 Abrir Tela da TV
     </button>
+
   </div>
 
-  <!-- CONSULTÓRIO -->
+
+  <!-- =====================================================
+       CONSULTÓRIO
+  ===================================================== -->
+
   <div class="consultorio-box">
-    <label>🏥 Meu Consultório:</label>
+
+    <label>
+      🏥 Meu Consultório:
+    </label>
 
     <input
       type="text"
@@ -294,17 +373,32 @@
     <span style="color:#666;font-size:13px;">
       Este número será exibido na TV ao chamar o paciente.
     </span>
+
   </div>
 
-  <!-- 1. FILA DE PACIENTES -->
+
+
+  <!-- =====================================================
+       1. FILA DE PACIENTES
+  ===================================================== -->
+
   <section class="secao">
+
     <div
       class="secao-cabecalho"
       onclick="toggleSecao('fila')"
     >
+
       <div>
-        <h3>👥 Fila de Pacientes</h3>
-        <span>Pacientes aguardando atendimento</span>
+
+        <h3>
+          👥 Fila de Pacientes
+        </h3>
+
+        <span>
+          Pacientes aguardando atendimento
+        </span>
+
       </div>
 
       <button
@@ -313,22 +407,44 @@
       >
         Abrir
       </button>
+
     </div>
 
-    <div class="secao-conteudo" id="fila">
+
+    <div
+      class="secao-conteudo"
+      id="fila"
+    >
+
       <div id="triagens"></div>
+
     </div>
+
   </section>
 
-  <!-- 2. CONSULTA -->
+
+
+  <!-- =====================================================
+       2. CONSULTA
+  ===================================================== -->
+
   <section class="secao secao-fechada">
+
     <div
       class="secao-cabecalho"
       onclick="toggleSecaoElemento(this)"
     >
+
       <div>
-        <h3>🩺 Consulta Médica</h3>
-        <span>Diagnóstico e prescrição</span>
+
+        <h3>
+          🩺 Consulta Médica
+        </h3>
+
+        <span>
+          Diagnóstico e prescrição
+        </span>
+
       </div>
 
       <button
@@ -337,47 +453,82 @@
       >
         Abrir
       </button>
+
     </div>
 
+
     <div class="secao-conteudo">
+
       <div class="paciente-selecionado">
+
         Paciente selecionado:
+
         <strong id="paciente-display">
           Nenhum paciente selecionado
         </strong>
+
       </div>
 
+
       <div class="form-grupo">
-        <label>Paciente</label>
+
+        <label>
+          Paciente
+        </label>
+
         <input
           id="paciente"
           placeholder="Selecione um paciente na fila"
           readonly
         >
+
       </div>
 
+
       <div class="form-grupo">
-        <label>Diagnóstico</label>
+
+        <label>
+          Diagnóstico
+        </label>
+
         <input
           id="diagnostico"
           placeholder="Informe o diagnóstico"
         >
+
       </div>
 
+
       <div class="form-grupo">
-        <label>Medicação</label>
+
+        <label>
+          Medicação
+        </label>
+
         <select id="medicacao">
-          <option value="">Selecione a medicação</option>
+
+          <option value="">
+            Selecione a medicação
+          </option>
+
         </select>
+
       </div>
 
+
       <div class="form-grupo">
-        <label>Observações</label>
+
+        <label>
+          Observações
+        </label>
+
         <textarea
           id="obs"
           placeholder="Observações da consulta"
         ></textarea>
+
       </div>
+
 
       <button
         class="btn btn-salvar"
@@ -385,18 +536,34 @@
       >
         💾 Salvar Consulta
       </button>
+
     </div>
+
   </section>
 
-  <!-- 3. INTERNAÇÃO -->
+
+
+  <!-- =====================================================
+       3. INTERNAÇÃO
+  ===================================================== -->
+
   <section class="secao secao-fechada">
+
     <div
       class="secao-cabecalho"
       onclick="toggleSecaoElemento(this)"
     >
+
       <div>
-        <h3>🏥 Internação</h3>
-        <span>Internar o paciente e gerar documento</span>
+
+        <h3>
+          🏥 Internação
+        </h3>
+
+        <span>
+          Internar o paciente e gerar documento
+        </span>
+
       </div>
 
       <button
@@ -405,54 +572,109 @@
       >
         Abrir
       </button>
+
     </div>
 
+
     <div class="secao-conteudo">
+
+
       <div class="paciente-selecionado">
+
         Paciente selecionado:
+
         <strong id="paciente-internacao">
           Nenhum paciente selecionado
         </strong>
+
       </div>
 
+
       <div class="internacao-grid">
+
+
         <div class="form-grupo">
-          <label>🛏️ Número do Leito</label>
+
+          <label>
+            🛏️ Número do Leito
+          </label>
+
           <input
             type="text"
             id="leito"
             placeholder="Ex: 102"
           >
+
         </div>
+
 
         <div class="form-grupo">
-          <label>🏥 Setor</label>
+
+          <label>
+            🏥 Setor
+          </label>
+
           <select id="setor">
-            <option value="">Selecione o setor</option>
-            <option value="Enfermaria">Enfermaria</option>
-            <option value="UTI">UTI</option>
-            <option value="Observação">Observação</option>
-            <option value="Pediatria">Pediatria</option>
-            <option value="Clínica Médica">Clínica Médica</option>
+
+            <option value="">
+              Selecione o setor
+            </option>
+
+            <option value="Enfermaria">
+              Enfermaria
+            </option>
+
+            <option value="UTI">
+              UTI
+            </option>
+
+            <option value="Observação">
+              Observação
+            </option>
+
+            <option value="Pediatria">
+              Pediatria
+            </option>
+
+            <option value="Clínica Médica">
+              Clínica Médica
+            </option>
+
           </select>
+
         </div>
+
+
       </div>
 
+
       <div class="form-grupo">
-        <label>Motivo da Internação</label>
+
+        <label>
+          Motivo da Internação
+        </label>
+
         <textarea
           id="motivo-internacao"
           placeholder="Informe o motivo da internação"
         ></textarea>
+
       </div>
 
+
       <div class="form-grupo">
-        <label>Observações da Internação</label>
+
+        <label>
+          Observações da Internação
+        </label>
+
         <textarea
           id="obs-internacao"
           placeholder="Orientações ou observações adicionais"
         ></textarea>
+
       </div>
+
 
       <button
         class="btn btn-internar"
@@ -460,18 +682,34 @@
       >
         🏥 Internar Paciente e Gerar PDF
       </button>
+
     </div>
+
   </section>
 
-  <!-- 4. ALTA -->
+
+
+  <!-- =====================================================
+       4. ALTA
+  ===================================================== -->
+
   <section class="secao secao-fechada">
+
     <div
       class="secao-cabecalho"
       onclick="toggleSecaoElemento(this)"
     >
+
       <div>
-        <h3>🏠 Alta do Paciente</h3>
-        <span>Finalizar atendimento e gerar documento</span>
+
+        <h3>
+          🏠 Alta do Paciente
+        </h3>
+
+        <span>
+          Finalizar atendimento e gerar documento
+        </span>
+
       </div>
 
       <button
@@ -480,20 +718,31 @@
       >
         Abrir
       </button>
+
     </div>
 
+
     <div class="secao-conteudo">
+
+
       <div class="paciente-selecionado">
+
         Paciente selecionado:
+
         <strong id="paciente-alta">
           Nenhum paciente selecionado
         </strong>
+
       </div>
 
+
       <p style="color:#666;font-size:13px;">
+
         Após finalizar a consulta, utilize esta área para
         registrar a alta e gerar o documento em PDF.
+
       </p>
+
 
       <button
         class="btn btn-alta"
@@ -501,72 +750,124 @@
       >
         🏠 Dar Alta e Gerar PDF
       </button>
+
     </div>
+
   </section>
+
 
 </div>
 
+
+
 <script>
 
-/* VARIÁVEIS */
+
+/* =====================================================
+   VARIÁVEIS
+===================================================== */
+
 let triagensCarregadas = [];
 
-/* ABRIR / FECHAR SEÇÕES */
+
+
+/* =====================================================
+   ABRIR / FECHAR SEÇÕES
+===================================================== */
+
 function toggleSecaoElemento(cabecalho) {
-  const secao = cabecalho.parentElement;
+
+  const secao =
+    cabecalho.parentElement;
+
   secao.classList.toggle("secao-fechada");
 
-  const botao = cabecalho.querySelector(".btn-toggle");
+  const botao =
+    cabecalho.querySelector(".btn-toggle");
 
   if (secao.classList.contains("secao-fechada")) {
+
     botao.textContent = "Abrir";
+
   } else {
+
     botao.textContent = "Fechar";
+
   }
+
 }
+
 
 function toggleSecao(id) {
-  const elemento = document.getElementById(id);
-  const secao = elemento.parentElement;
+
+  const elemento =
+    document.getElementById(id);
+
+  const secao =
+    elemento.parentElement;
 
   secao.classList.toggle("secao-fechada");
 
-  const botao = secao.querySelector(".btn-toggle");
+  const botao =
+    secao.querySelector(".btn-toggle");
 
   if (secao.classList.contains("secao-fechada")) {
+
     botao.textContent = "Abrir";
+
   } else {
+
     botao.textContent = "Fechar";
+
   }
+
 }
 
-/* CARREGAR TRIAGENS */
+
+
+/* =====================================================
+   CARREGAR TRIAGENS
+===================================================== */
+
 function carregar() {
+
   fetch("/triagens")
+
     .then(r => r.json())
+
     .then(data => {
+
       triagensCarregadas = data;
 
-      const div = document.getElementById("triagens");
+      const div =
+        document.getElementById("triagens");
+
       div.innerHTML = "";
 
+
       if (data.length === 0) {
+
         div.innerHTML = `
           <div class="vazio">
             Nenhum paciente na fila.
           </div>
         `;
+
         return;
+
       }
 
+
       data.forEach((t, index) => {
-        // O risco exibido vem do backend, que faz a classificação.
+
+        // ALTERAÇÃO 1: normaliza o risco para aplicar a classe de cor.
         const risco = String(t.risco || "Não informado").toLowerCase();
 
         const classeRisco = ["verde", "amarelo", "vermelho"].includes(risco)
           ? risco
           : "";
 
+        // ALTERAÇÃO 2: verifica a temperatura sem considerar 0 como ausente.
         const temperaturaInformada =
           t.temperatura !== null &&
           t.temperatura !== undefined &&
@@ -576,13 +877,15 @@ function carregar() {
           ? `${t.temperatura}°C`
           : "Não informada";
 
+        // ALTERAÇÃO 3: mostra o motivo da classificação enviado pelo backend.
         const motivoRisco = t.motivoRisco || "Motivo não informado";
 
         div.innerHTML += `
+
           <div class="card-paciente">
 
             <h4>
-              👤 ${t.nome || "Paciente sem nome"}
+              👤 ${t.nome}
             </h4>
 
             <p>
@@ -617,7 +920,9 @@ function carregar() {
               ${t.observacao || "Nenhuma"}
             </p>
 
+
             <div class="acoes-paciente">
+
               <button
                 class="btn btn-atender"
                 onclick="selecionar(${index})"
@@ -625,44 +930,70 @@ function carregar() {
                 🩺 Atender
               </button>
 
+
               <button
                 class="btn btn-tv"
                 onclick="chamarNaTV('${String(t.nome || "").replace(/\\/g, "\\\\").replace(/'/g, "\\'")}')"
               >
                 📺 Chamar na TV
               </button>
+
             </div>
+
           </div>
+
         `;
+
       });
+
     })
+
     .catch(() => {
+
       document.getElementById("triagens").innerHTML = `
         <div class="vazio">
           Não foi possível carregar a fila.
         </div>
       `;
+
     });
+
 }
 
-/* CHAMAR NA TV */
+
+
+/* =====================================================
+   CHAMAR NA TV
+===================================================== */
+
 function chamarNaTV(nome) {
+
   const consultorio =
     document.getElementById("consultorio-num").value || "01";
 
+
   fetch("/tv/chamar", {
+
     method: "POST",
+
     headers: {
       "Content-Type": "application/json"
     },
+
     body: JSON.stringify({
+
       localTipo: "CONSULTÓRIO",
       localNumero: consultorio,
       paciente: nome
+
     })
+
   })
+
   .then(r => r.json())
+
   .then(() => {
+
     alert(
       "✅ " +
       nome +
@@ -670,142 +1001,319 @@ function chamarNaTV(nome) {
       consultorio +
       "!"
     );
+
   });
+
 }
 
-/* SELECIONAR PACIENTE */
+
+
+/* =====================================================
+   SELECIONAR PACIENTE
+===================================================== */
+
 function selecionar(index) {
-  const t = triagensCarregadas[index];
 
-  document.getElementById("paciente").value = t.nome;
-  document.getElementById("paciente-display").textContent = t.nome;
-  document.getElementById("paciente-internacao").textContent = t.nome;
-  document.getElementById("paciente-alta").textContent = t.nome;
-  document.getElementById("obs").value = t.observacao || "";
+  const t =
+    triagensCarregadas[index];
 
-  // Abre automaticamente a seção de consulta.
-  const secoes = document.querySelectorAll(".secao");
+
+  document.getElementById("paciente").value =
+    t.nome;
+
+
+  document.getElementById("paciente-display").textContent =
+    t.nome;
+
+
+  document.getElementById("paciente-internacao").textContent =
+    t.nome;
+
+
+  document.getElementById("paciente-alta").textContent =
+    t.nome;
+
+
+  document.getElementById("obs").value =
+    t.observacao || "";
+
+
+  /*
+     Abre automaticamente a seção de consulta
+  */
+
+  const secoes =
+    document.querySelectorAll(".secao");
+
 
   secoes.forEach(secao => {
-    const titulo = secao.querySelector("h3");
 
-    if (titulo && titulo.textContent.includes("Consulta")) {
+    const titulo =
+      secao.querySelector("h3");
+
+    if (
+      titulo &&
+      titulo.textContent.includes("Consulta")
+    ) {
+
       secao.classList.remove("secao-fechada");
-      secao.querySelector(".btn-toggle").textContent = "Fechar";
+
+      secao.querySelector(".btn-toggle").textContent =
+        "Fechar";
+
     }
+
   });
 
-  if (t.alergia && t.alergia !== "Nenhuma") {
-    alert("⚠️ Paciente possui alergia: " + t.alergia);
+
+  if (
+    t.alergia &&
+    t.alergia !== "Nenhuma"
+  ) {
+
+    alert(
+      "⚠️ Paciente possui alergia: " +
+      t.alergia
+    );
+
   }
+
 }
 
-/* CARREGAR MEDICAÇÕES */
-function carregarMedicacoes() {
-  fetch("/lista-medicacoes")
-    .then(r => r.json())
-    .then(data => {
-      const select = document.getElementById("medicacao");
 
-      select.innerHTML = `
-        <option value="">
+
+/* =====================================================
+   CARREGAR MEDICAÇÕES
+===================================================== */
+
+function carregarMedicacoes() {
+
+  fetch("/lista-medicacoes")
+
+    .then(r => r.json())
+
+    .then(data => {
+
+      const select =
+        document.getElementById("medicacao");
+
+
+      select.innerHTML =
+        `<option value="">
           Selecione a medicação
-        </option>
-      `;
+        </option>`;
+
 
       data.forEach(med => {
-        const option = document.createElement("option");
+
+        const option =
+          document.createElement("option");
+
         option.value = med;
+
         option.textContent = med;
+
         select.appendChild(option);
+
       });
+
     });
+
 }
 
-/* SALVAR CONSULTA */
+
+
+/* =====================================================
+   SALVAR CONSULTA
+===================================================== */
+
 function salvar() {
-  const paciente = document.getElementById("paciente").value;
-  const diagnostico = document.getElementById("diagnostico").value;
-  const medicacao = document.getElementById("medicacao").value;
-  const obs = document.getElementById("obs").value;
+
+  const paciente =
+    document.getElementById("paciente").value;
+
+  const diagnostico =
+    document.getElementById("diagnostico").value;
+
+  const medicacao =
+    document.getElementById("medicacao").value;
+
+  const obs =
+    document.getElementById("obs").value;
+
 
   if (!paciente) {
-    alert("⚠️ Selecione um paciente primeiro.");
+
+    alert(
+      "⚠️ Selecione um paciente primeiro."
+    );
+
     return;
+
   }
+
 
   if (!medicacao) {
-    alert("⚠️ Selecione uma medicação.");
+
+    alert(
+      "⚠️ Selecione uma medicação."
+    );
+
     return;
+
   }
 
+
   fetch("/consulta", {
+
     method: "POST",
+
     headers: {
       "Content-Type": "application/json"
     },
+
     body: JSON.stringify({
+
       paciente,
       diagnostico,
       medicacao,
       obs
+
     })
+
   })
+
   .then(r => r.json())
+
   .then(() => {
+
     alert("✅ Consulta salva!");
+
   });
+
 }
 
-/* INTERNAÇÃO */
+
+
+/* =====================================================
+   INTERNAÇÃO
+===================================================== */
+
 function internar() {
-  const paciente = document.getElementById("paciente").value;
-  const leito = document.getElementById("leito").value;
-  const setor = document.getElementById("setor").value;
-  const motivo = document.getElementById("motivo-internacao").value;
-  const obs = document.getElementById("obs-internacao").value;
+
+  const paciente =
+    document.getElementById("paciente").value;
+
+  const leito =
+    document.getElementById("leito").value;
+
+  const setor =
+    document.getElementById("setor").value;
+
+  const motivo =
+    document.getElementById("motivo-internacao").value;
+
+  const obs =
+    document.getElementById("obs-internacao").value;
+
+
+  /* Verifica paciente */
 
   if (!paciente) {
-    alert("⚠️ Selecione um paciente primeiro.");
+
+    alert(
+      "⚠️ Selecione um paciente primeiro."
+    );
+
     return;
+
   }
+
+
+  /* Verifica leito */
 
   if (!leito) {
-    alert("⚠️ Informe o número do leito.");
+
+    alert(
+      "⚠️ Informe o número do leito."
+    );
+
     return;
+
   }
+
+
+  /* Verifica setor */
 
   if (!setor) {
-    alert("⚠️ Selecione o setor.");
+
+    alert(
+      "⚠️ Selecione o setor."
+    );
+
     return;
+
   }
+
+
+  /* Verifica motivo */
 
   if (!motivo) {
-    alert("⚠️ Informe o motivo da internação.");
+
+    alert(
+      "⚠️ Informe o motivo da internação."
+    );
+
     return;
+
   }
 
-  const confirmar = confirm(
-    "Deseja internar " + paciente + " no leito " + leito + "?"
-  );
+
+  const confirmar =
+    confirm(
+      "Deseja internar " +
+      paciente +
+      " no leito " +
+      leito +
+      "?"
+    );
+
 
   if (!confirmar) return;
 
-  const agora = new Date();
-  const dataAtual = agora.toLocaleDateString("pt-BR");
 
-  const horaAtual = agora.toLocaleTimeString("pt-BR", {
-    hour: "2-digit",
-    minute: "2-digit"
-  });
+  const agora =
+    new Date();
 
-  // Registra no backend.
+
+  const dataAtual =
+    agora.toLocaleDateString("pt-BR");
+
+
+  const horaAtual =
+    agora.toLocaleTimeString(
+      "pt-BR",
+      {
+        hour: "2-digit",
+        minute: "2-digit"
+      }
+    );
+
+
+  /*
+     Registra no backend
+  */
+
   fetch("/internacao", {
+
     method: "POST",
+
     headers: {
       "Content-Type": "application/json"
     },
+
     body: JSON.stringify({
+
       paciente,
       leito,
       setor,
@@ -813,15 +1321,21 @@ function internar() {
       obs,
       data: dataAtual,
       hora: horaAtual
+
     })
+
   })
   .then(r => {
+
     if (!r.ok) {
       throw new Error();
     }
+
     return r.json();
+
   })
   .then(() => {
+
     gerarPDFInternacao(
       paciente,
       leito,
@@ -831,15 +1345,24 @@ function internar() {
       dataAtual,
       horaAtual
     );
+
   })
   .catch(() => {
-    // O PDF pode ser gerado mesmo se a rota não estiver disponível.
-    const continuar = confirm(
-      "A internação não pôde ser registrada no servidor.\n\n" +
-      "Deseja apenas gerar o documento de internação?"
-    );
+
+    /*
+       Mesmo que o backend ainda não tenha
+       a rota /internacao, o documento pode
+       ser gerado.
+    */
+
+    const continuar =
+      confirm(
+        "A internação não pôde ser registrada no servidor.\n\n" +
+        "Deseja apenas gerar o documento de internação?"
+      );
 
     if (continuar) {
+
       gerarPDFInternacao(
         paciente,
         leito,
@@ -849,11 +1372,19 @@ function internar() {
         dataAtual,
         horaAtual
       );
+
     }
+
   });
+
 }
 
-/* PDF DE INTERNAÇÃO */
+
+
+/* =====================================================
+   PDF DE INTERNAÇÃO
+===================================================== */
+
 function gerarPDFInternacao(
   paciente,
   leito,
@@ -863,239 +1394,592 @@ function gerarPDFInternacao(
   dataAtual,
   horaAtual
 ) {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+
+  const { jsPDF } =
+    window.jspdf;
+
+
+  const doc =
+    new jsPDF();
+
+
+  /* Cabeçalho */
 
   doc.setFontSize(20);
-  doc.text("SISTEMA HOSPITALAR", 105, 25, {
-    align: "center"
-  });
+
+  doc.text(
+    "SISTEMA HOSPITALAR",
+    105,
+    25,
+    {
+      align: "center"
+    }
+  );
+
 
   doc.setFontSize(16);
-  doc.text("DOCUMENTO DE INTERNAÇÃO", 105, 36, {
-    align: "center"
-  });
 
-  doc.line(20, 43, 190, 43);
+  doc.text(
+    "DOCUMENTO DE INTERNAÇÃO",
+    105,
+    36,
+    {
+      align: "center"
+    }
+  );
+
+
+  doc.line(
+    20,
+    43,
+    190,
+    43
+  );
+
+
   doc.setFontSize(12);
+
 
   let y = 60;
 
-  // Paciente
+
+  /* Paciente */
+
   doc.setFont(undefined, "bold");
-  doc.text("Paciente:", 20, y);
+
+  doc.text(
+    "Paciente:",
+    20,
+    y
+  );
 
   doc.setFont(undefined, "normal");
-  doc.text(paciente, 55, y);
+
+  doc.text(
+    paciente,
+    55,
+    y
+  );
+
 
   y += 15;
 
-  // Leito
+
+  /* Leito */
+
   doc.setFont(undefined, "bold");
-  doc.text("Leito:", 20, y);
+
+  doc.text(
+    "Leito:",
+    20,
+    y
+  );
 
   doc.setFont(undefined, "normal");
-  doc.text(leito, 55, y);
+
+  doc.text(
+    leito,
+    55,
+    y
+  );
+
 
   y += 15;
 
-  // Setor
+
+  /* Setor */
+
   doc.setFont(undefined, "bold");
-  doc.text("Setor:", 20, y);
+
+  doc.text(
+    "Setor:",
+    20,
+    y
+  );
 
   doc.setFont(undefined, "normal");
-  doc.text(setor, 55, y);
+
+  doc.text(
+    setor,
+    55,
+    y
+  );
+
 
   y += 18;
 
-  // Motivo
+
+  /* Motivo */
+
   doc.setFont(undefined, "bold");
-  doc.text("Motivo da internação:", 20, y);
+
+  doc.text(
+    "Motivo da internação:",
+    20,
+    y
+  );
+
 
   y += 8;
 
+
   doc.setFont(undefined, "normal");
 
-  const linhasMotivo = doc.splitTextToSize(motivo, 170);
-  doc.text(linhasMotivo, 20, y);
 
-  y += linhasMotivo.length * 7 + 12;
+  const linhasMotivo =
+    doc.splitTextToSize(
+      motivo,
+      170
+    );
 
-  // Observações
+
+  doc.text(
+    linhasMotivo,
+    20,
+    y
+  );
+
+
+  y +=
+    linhasMotivo.length * 7 +
+    12;
+
+
+  /* Observações */
+
   doc.setFont(undefined, "bold");
-  doc.text("Observações:", 20, y);
+
+  doc.text(
+    "Observações:",
+    20,
+    y
+  );
+
 
   y += 8;
 
+
   doc.setFont(undefined, "normal");
 
-  const linhasObs = doc.splitTextToSize(obs || "Nenhuma", 170);
-  doc.text(linhasObs, 20, y);
 
-  y += linhasObs.length * 7 + 20;
+  const linhasObs =
+    doc.splitTextToSize(
+      obs || "Nenhuma",
+      170
+    );
 
-  // Data
+
+  doc.text(
+    linhasObs,
+    20,
+    y
+  );
+
+
+  y +=
+    linhasObs.length * 7 +
+    20;
+
+
+  /* Data */
+
   doc.setFont(undefined, "bold");
-  doc.text("Data da internação:", 20, y);
+
+  doc.text(
+    "Data da internação:",
+    20,
+    y
+  );
 
   doc.setFont(undefined, "normal");
-  doc.text(dataAtual, 65, y);
+
+  doc.text(
+    dataAtual,
+    65,
+    y
+  );
+
 
   y += 10;
 
-  // Hora
+
+  /* Hora */
+
   doc.setFont(undefined, "bold");
-  doc.text("Hora da internação:", 20, y);
+
+  doc.text(
+    "Hora da internação:",
+    20,
+    y
+  );
 
   doc.setFont(undefined, "normal");
-  doc.text(horaAtual, 65, y);
 
-  // Assinatura
+  doc.text(
+    horaAtual,
+    65,
+    y
+  );
+
+
+  /* Assinatura */
+
   y += 35;
 
-  doc.line(60, y, 150, y);
 
-  doc.text("Médico responsável", 105, y + 7, {
-    align: "center"
-  });
+  doc.line(
+    60,
+    y,
+    150,
+    y
+  );
+
+
+  doc.text(
+    "Médico responsável",
+    105,
+    y + 7,
+    {
+      align: "center"
+    }
+  );
+
+
+  /* Nome do arquivo */
 
   const nomeArquivo =
     "internacao-" +
-    paciente.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase() +
+    paciente
+      .replace(/[^a-zA-Z0-9]/g, "-")
+      .toLowerCase() +
     ".pdf";
 
+
   doc.save(nomeArquivo);
+
 
   alert(
     "🏥 Internação realizada!\n\n" +
     "O documento de internação foi gerado em PDF."
   );
+
 }
 
-/* ALTA */
+
+
+/* =====================================================
+   ALTA
+===================================================== */
+
 function darAlta() {
-  const paciente = document.getElementById("paciente").value;
-  const diagnostico = document.getElementById("diagnostico").value;
-  const medicacao = document.getElementById("medicacao").value;
-  const obs = document.getElementById("obs").value;
+
+  const paciente =
+    document.getElementById("paciente").value;
+
+  const diagnostico =
+    document.getElementById("diagnostico").value;
+
+  const medicacao =
+    document.getElementById("medicacao").value;
+
+  const obs =
+    document.getElementById("obs").value;
+
 
   if (!paciente) {
-    alert("⚠️ Selecione um paciente primeiro.");
+
+    alert(
+      "⚠️ Selecione um paciente primeiro."
+    );
+
     return;
+
   }
+
 
   if (!diagnostico) {
-    alert("⚠️ Informe o diagnóstico antes de dar alta.");
+
+    alert(
+      "⚠️ Informe o diagnóstico antes de dar alta."
+    );
+
     return;
+
   }
 
-  const confirmar = confirm("Deseja dar alta para " + paciente + "?");
+
+  const confirmar =
+    confirm(
+      "Deseja dar alta para " +
+      paciente +
+      "?"
+    );
+
 
   if (!confirmar) return;
 
-  const agora = new Date();
-  const dataAtual = agora.toLocaleDateString("pt-BR");
 
-  const horaAtual = agora.toLocaleTimeString("pt-BR", {
-    hour: "2-digit",
-    minute: "2-digit"
-  });
+  const agora =
+    new Date();
 
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
 
-  // Cabeçalho
+  const dataAtual =
+    agora.toLocaleDateString(
+      "pt-BR"
+    );
+
+
+  const horaAtual =
+    agora.toLocaleTimeString(
+      "pt-BR",
+      {
+        hour: "2-digit",
+        minute: "2-digit"
+      }
+    );
+
+
+  const { jsPDF } =
+    window.jspdf;
+
+
+  const doc =
+    new jsPDF();
+
+
+  /* Cabeçalho */
+
   doc.setFontSize(20);
-  doc.text("SISTEMA HOSPITALAR", 105, 25, {
-    align: "center"
-  });
+
+  doc.text(
+    "SISTEMA HOSPITALAR",
+    105,
+    25,
+    {
+      align: "center"
+    }
+  );
+
 
   doc.setFontSize(16);
-  doc.text("DOCUMENTO DE ALTA", 105, 36, {
-    align: "center"
-  });
 
-  doc.line(20, 43, 190, 43);
+  doc.text(
+    "DOCUMENTO DE ALTA",
+    105,
+    36,
+    {
+      align: "center"
+    }
+  );
+
+
+  doc.line(
+    20,
+    43,
+    190,
+    43
+  );
+
+
   doc.setFontSize(12);
+
 
   let y = 60;
 
-  // Paciente
+
+  /* Paciente */
+
   doc.setFont(undefined, "bold");
-  doc.text("Paciente:", 20, y);
+
+  doc.text(
+    "Paciente:",
+    20,
+    y
+  );
 
   doc.setFont(undefined, "normal");
-  doc.text(paciente, 55, y);
+
+  doc.text(
+    paciente,
+    55,
+    y
+  );
+
 
   y += 15;
 
-  // Diagnóstico
+
+  /* Diagnóstico */
+
   doc.setFont(undefined, "bold");
-  doc.text("Diagnóstico:", 20, y);
+
+  doc.text(
+    "Diagnóstico:",
+    20,
+    y
+  );
 
   doc.setFont(undefined, "normal");
 
-  const linhasDiagnostico = doc.splitTextToSize(diagnostico, 135);
-  doc.text(linhasDiagnostico, 55, y);
 
-  y += Math.max(linhasDiagnostico.length, 1) * 7 + 8;
+  const linhasDiagnostico =
+    doc.splitTextToSize(
+      diagnostico,
+      135
+    );
 
-  // Medicação
+
+  doc.text(
+    linhasDiagnostico,
+    55,
+    y
+  );
+
+
+  y +=
+    Math.max(
+      linhasDiagnostico.length,
+      1
+    ) * 7 + 8;
+
+
+  /* Medicação */
+
   doc.setFont(undefined, "bold");
-  doc.text("Medicação:", 20, y);
+
+  doc.text(
+    "Medicação:",
+    20,
+    y
+  );
 
   doc.setFont(undefined, "normal");
-  doc.text(medicacao || "Nenhuma", 55, y);
+
+  doc.text(
+    medicacao || "Nenhuma",
+    55,
+    y
+  );
+
 
   y += 15;
 
-  // Observações
+
+  /* Observações */
+
   doc.setFont(undefined, "bold");
-  doc.text("Observações:", 20, y);
+
+  doc.text(
+    "Observações:",
+    20,
+    y
+  );
+
 
   y += 8;
 
+
   doc.setFont(undefined, "normal");
 
-  const linhasObs = doc.splitTextToSize(obs || "Nenhuma", 170);
-  doc.text(linhasObs, 20, y);
 
-  y += linhasObs.length * 7 + 20;
+  const linhasObs =
+    doc.splitTextToSize(
+      obs || "Nenhuma",
+      170
+    );
 
-  // Data
+
+  doc.text(
+    linhasObs,
+    20,
+    y
+  );
+
+
+  y +=
+    linhasObs.length * 7 +
+    20;
+
+
+  /* Data */
+
   doc.setFont(undefined, "bold");
-  doc.text("Data da alta:", 20, y);
+
+  doc.text(
+    "Data da alta:",
+    20,
+    y
+  );
 
   doc.setFont(undefined, "normal");
-  doc.text(dataAtual, 55, y);
+
+  doc.text(
+    dataAtual,
+    55,
+    y
+  );
+
 
   y += 10;
 
-  // Hora
+
+  /* Hora */
+
   doc.setFont(undefined, "bold");
-  doc.text("Hora da alta:", 20, y);
+
+  doc.text(
+    "Hora da alta:",
+    20,
+    y
+  );
 
   doc.setFont(undefined, "normal");
-  doc.text(horaAtual, 55, y);
 
-  // Assinatura
+  doc.text(
+    horaAtual,
+    55,
+    y
+  );
+
+
+  /* Assinatura */
+
   y += 35;
 
-  doc.line(60, y, 150, y);
 
-  doc.text("Médico responsável", 105, y + 7, {
-    align: "center"
-  });
+  doc.line(
+    60,
+    y,
+    150,
+    y
+  );
 
-  // Arquivo
+
+  doc.text(
+    "Médico responsável",
+    105,
+    y + 7,
+    {
+      align: "center"
+    }
+  );
+
+
+  /* Arquivo */
+
   const nomeArquivo =
     "alta-" +
-    paciente.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase() +
+    paciente
+      .replace(/[^a-zA-Z0-9]/g, "-")
+      .toLowerCase() +
     ".pdf";
+
 
   doc.save(nomeArquivo);
 
-  // Limpar formulário
+
+  /* Limpar */
+
   document.getElementById("paciente").value = "";
 
   document.getElementById("paciente-display").textContent =
@@ -1108,29 +1992,51 @@ function darAlta() {
     "Nenhum paciente selecionado";
 
   document.getElementById("diagnostico").value = "";
+
   document.getElementById("medicacao").value = "";
+
   document.getElementById("obs").value = "";
+
   document.getElementById("leito").value = "";
+
   document.getElementById("setor").value = "";
+
   document.getElementById("motivo-internacao").value = "";
+
   document.getElementById("obs-internacao").value = "";
 
+
   carregar();
+
 
   alert(
     "🏠 Alta realizada!\n\n" +
     "O documento de alta foi gerado em PDF."
   );
+
 }
 
-/* INICIALIZAÇÃO */
+
+
+/* =====================================================
+   INICIALIZAÇÃO
+===================================================== */
+
 carregar();
+
 carregarMedicacoes();
 
+
 /* Atualiza fila a cada 10 segundos */
-setInterval(carregar, 10000);
+
+setInterval(
+  carregar,
+  10000
+);
 
 </script>
 
+
 </body>
+
 </html>
