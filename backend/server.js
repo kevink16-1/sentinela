@@ -1,3 +1,4 @@
+
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
@@ -11,7 +12,6 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, "../frontend")));
 
 const DB_FILE = path.join(__dirname, "db.json");
-
 
 // =====================================================
 // BANCO DE DADOS JSON
@@ -51,28 +51,124 @@ function writeDB(data) {
   );
 }
 
+// =====================================================
+// CLASSIFICAÇÃO DEMONSTRATIVA DE RISCO
+// Não substitui avaliação profissional.
+// Não é um protocolo clínico validado.
+// =====================================================
+
+function classificarRisco(sintoma, temperatura) {
+  const vermelhos = [
+    "infarto",
+    "avc",
+    "convulsao",
+    "hemorragia",
+    "falta_ar_grave"
+  ];
+
+  const amarelos = [
+    "febre",
+    "vomito",
+    "diarreia",
+    "falta_ar_moderada"
+  ];
+
+  const sintomasLeves = [
+    "dor_leve",
+    "resfriado",
+    "coriza",
+    "tosse"
+  ];
+
+  if (!sintoma) {
+    return {
+      risco: "avaliacao_necessaria",
+      motivo:
+        "Sintoma não informado. É necessária avaliação antes da classificação."
+    };
+  }
+
+  // Sinais de alerta selecionados no formulário.
+  if (vermelhos.includes(sintoma)) {
+    return {
+      risco: "vermelho",
+      motivo:
+        "Sinal de alerta selecionado. Priorizar avaliação imediata."
+    };
+  }
+
+  // Alertas demonstrativos de temperatura.
+  // A temperatura isolada não determina a gravidade clínica.
+  if (
+    temperatura !== null &&
+    (temperatura < 35 || temperatura >= 40)
+  ) {
+    return {
+      risco: "vermelho",
+      motivo:
+        "Temperatura em faixa de alerta. É necessária avaliação imediata."
+    };
+  }
+
+  if (amarelos.includes(sintoma)) {
+    return {
+      risco: "amarelo",
+      motivo:
+        "Sintoma que requer avaliação prioritária neste modelo demonstrativo."
+    };
+  }
+
+  if (temperatura !== null && temperatura >= 38) {
+    return {
+      risco: "amarelo",
+      motivo:
+        "Temperatura elevada registrada. Requer avaliação profissional prioritária."
+    };
+  }
+
+  if (sintomasLeves.includes(sintoma) && temperatura !== null) {
+    return {
+      risco: "verde",
+      motivo:
+        "Nenhum alerta automático foi identificado pelos dados informados. A avaliação profissional continua necessária."
+    };
+  }
+
+  return {
+    risco: "avaliacao_necessaria",
+    motivo:
+      "Dados insuficientes para uma classificação demonstrativa segura."
+  };
+}
 
 // =====================================================
 // LOGIN
 // =====================================================
 
 app.post("/login", (req, res) => {
-  const db = readDB();
+  try {
+    const db = readDB();
 
-  const user = db.usuarios.find(user =>
-    user.usuario === req.body.usuario &&
-    user.senha === req.body.senha
-  );
+    const user = db.usuarios.find(user =>
+      user.usuario === req.body.usuario &&
+      user.senha === req.body.senha
+    );
 
-  if (!user) {
-    return res.status(401).json({
-      erro: "Login inválido"
+    if (!user) {
+      return res.status(401).json({
+        erro: "Login inválido"
+      });
+    }
+
+    res.json(user);
+  } catch (erro) {
+    console.error("Erro no login:", erro);
+
+    res.status(500).json({
+      erro: "Erro ao realizar login"
     });
   }
-
-  res.json(user);
 });
-
 
 // =====================================================
 // ATENDIMENTO - CADASTRAR PACIENTE
@@ -114,25 +210,25 @@ app.post("/atendimento", (req, res) => {
       createdAt: new Date().toISOString()
     };
 
+    if (!paciente.nome.trim()) {
+      return res.status(400).json({
+        erro: "Informe o nome do paciente"
+      });
+    }
+
     db.pacientes.push(paciente);
 
     writeDB(db);
 
     res.status(201).json(paciente);
-
   } catch (erro) {
-    console.error(
-      "Erro ao cadastrar paciente:",
-      erro
-    );
+    console.error("Erro ao cadastrar paciente:", erro);
 
     res.status(500).json({
-      erro: "Erro ao salvar paciente",
-      detalhes: erro.message
+      erro: "Erro ao salvar paciente"
     });
   }
 });
-
 
 // =====================================================
 // LISTAR PACIENTES
@@ -143,9 +239,8 @@ app.get("/pacientes", (req, res) => {
     const db = readDB();
 
     res.json(db.pacientes);
-
   } catch (erro) {
-    console.error(erro);
+    console.error("Erro ao buscar pacientes:", erro);
 
     res.status(500).json({
       erro: "Erro ao buscar pacientes"
@@ -153,115 +248,172 @@ app.get("/pacientes", (req, res) => {
   }
 });
 
-
 // =====================================================
 // TRIAGEM
 // =====================================================
 
 app.post("/triagem", (req, res) => {
-  const db = readDB();
+  try {
+    const db = readDB();
 
-  let risco = req.body.risco;
+    const nome = String(req.body.nome || "").trim();
+    const sintoma = String(req.body.sintoma || "").trim();
+    const alergia = String(req.body.alergia || "").trim();
+    const observacao = String(req.body.observacao || "").trim();
 
-  const temperatura = Number(
-    req.body.temperatura
-  );
+    if (!nome) {
+      return res.status(400).json({
+        erro: "Informe o nome do paciente"
+      });
+    }
 
-  if (temperatura >= 39) {
-    risco = "vermelho";
-  } else if (temperatura >= 38) {
-    risco = "amarelo";
-  } else if (!risco) {
-    risco = "verde";
+    if (!sintoma) {
+      return res.status(400).json({
+        erro: "Selecione um sintoma"
+      });
+    }
+
+    let temperatura = null;
+
+    const temperaturaEnviada =
+      req.body.temperatura !== undefined &&
+      req.body.temperatura !== null &&
+      String(req.body.temperatura).trim() !== "";
+
+    if (temperaturaEnviada) {
+      temperatura = Number(req.body.temperatura);
+
+      if (
+        !Number.isFinite(temperatura) ||
+        temperatura < 25 ||
+        temperatura > 45
+      ) {
+        return res.status(400).json({
+          erro: "Temperatura inválida. Confira o valor informado."
+        });
+      }
+    }
+
+    // O risco enviado pelo navegador é ignorado.
+    // A classificação é calculada no servidor.
+    const classificacao = classificarRisco(
+      sintoma,
+      temperatura
+    );
+
+    const triagem = {
+      id: Date.now(),
+
+      nome,
+      sintoma,
+      temperatura,
+      alergia,
+      observacao,
+
+      risco: classificacao.risco,
+      motivoRisco: classificacao.motivo,
+
+      status: "aguardando_medico",
+
+      createdAt: new Date().toISOString()
+    };
+
+    db.triagens.push(triagem);
+
+    writeDB(db);
+
+    res.status(201).json(triagem);
+  } catch (erro) {
+    console.error("Erro ao salvar triagem:", erro);
+
+    res.status(500).json({
+      erro: "Erro ao salvar triagem"
+    });
   }
-
-  const triagem = {
-    id: Date.now(),
-
-    nome: req.body.nome || "",
-    sintoma: req.body.sintoma || "",
-    temperatura: req.body.temperatura || "",
-    alergia: req.body.alergia || "",
-    observacao: req.body.observacao || "",
-
-    risco: risco,
-
-    status: "aguardando_medico",
-
-    createdAt: new Date().toISOString()
-  };
-
-  db.triagens.push(triagem);
-
-  writeDB(db);
-
-  res.status(201).json(triagem);
 });
-
 
 // =====================================================
 // LISTAR TRIAGENS
 // =====================================================
 
 app.get("/triagens", (req, res) => {
-  const db = readDB();
+  try {
+    const db = readDB();
 
-  res.json(db.triagens);
+    res.json(db.triagens);
+  } catch (erro) {
+    console.error("Erro ao buscar triagens:", erro);
+
+    res.status(500).json({
+      erro: "Erro ao buscar triagens"
+    });
+  }
 });
-
 
 // =====================================================
 // MÍDIA INDOOR - TV
 // =====================================================
 
 app.post("/tv/chamar", (req, res) => {
-  const db = readDB();
+  try {
+    const db = readDB();
 
-  const chamada = {
-    id: Date.now().toString(),
+    const chamada = {
+      id: Date.now().toString(),
 
-    localTipo: req.body.localTipo || "",
+      localTipo: req.body.localTipo || "",
+      localNumero: req.body.localNumero || "",
+      paciente: req.body.paciente || "",
 
-    localNumero: req.body.localNumero || "",
+      hora: new Date().toLocaleTimeString(
+        "pt-BR",
+        {
+          hour: "2-digit",
+          minute: "2-digit"
+        }
+      )
+    };
 
-    paciente: req.body.paciente || "",
+    db.tv_chamada = chamada;
 
-    hora: new Date().toLocaleTimeString(
-      "pt-BR",
-      {
-        hour: "2-digit",
-        minute: "2-digit"
-      }
-    )
-  };
+    db.tv_historico.unshift(chamada);
 
-  db.tv_chamada = chamada;
+    if (db.tv_historico.length > 5) {
+      db.tv_historico.pop();
+    }
 
-  db.tv_historico.unshift(chamada);
+    writeDB(db);
 
-  if (db.tv_historico.length > 5) {
-    db.tv_historico.pop();
+    res.json(chamada);
+  } catch (erro) {
+    console.error("Erro ao chamar paciente:", erro);
+
+    res.status(500).json({
+      erro: "Erro ao chamar paciente na TV"
+    });
   }
-
-  writeDB(db);
-
-  res.json(chamada);
 });
-
 
 // =====================================================
 // CONSULTAR CHAMADA DA TV
 // =====================================================
 
 app.get("/tv/chamada", (req, res) => {
-  const db = readDB();
+  try {
+    const db = readDB();
 
-  res.json({
-    chamada: db.tv_chamada,
-    historico: db.tv_historico
-  });
+    res.json({
+      chamada: db.tv_chamada,
+      historico: db.tv_historico
+    });
+  } catch (erro) {
+    console.error("Erro ao consultar chamada:", erro);
+
+    res.status(500).json({
+      erro: "Erro ao consultar chamada"
+    });
+  }
 });
-
 
 // =====================================================
 // LISTA DE MEDICAÇÕES
@@ -282,46 +434,56 @@ app.get("/lista-medicacoes", (req, res) => {
   ]);
 });
 
-
 // =====================================================
 // CONSULTA MÉDICA
 // =====================================================
 
 app.post("/consulta", (req, res) => {
-  const db = readDB();
+  try {
+    const db = readDB();
 
-  const consulta = {
-    id: Date.now(),
+    const consulta = {
+      id: Date.now(),
 
-    paciente: req.body.paciente || "",
+      paciente: req.body.paciente || "",
+      diagnostico: req.body.diagnostico || "",
+      medicacao: req.body.medicacao || "",
+      obs: req.body.obs || "",
 
-    diagnostico: req.body.diagnostico || "",
+      createdAt: new Date().toISOString()
+    };
 
-    medicacao: req.body.medicacao || "",
+    db.consultas.push(consulta);
 
-    obs: req.body.obs || "",
+    writeDB(db);
 
-    createdAt: new Date().toISOString()
-  };
+    res.status(201).json(consulta);
+  } catch (erro) {
+    console.error("Erro ao salvar consulta:", erro);
 
-  db.consultas.push(consulta);
-
-  writeDB(db);
-
-  res.status(201).json(consulta);
+    res.status(500).json({
+      erro: "Erro ao salvar consulta"
+    });
+  }
 });
-
 
 // =====================================================
 // MEDICAÇÕES / CONSULTAS
 // =====================================================
 
 app.get("/medicacoes", (req, res) => {
-  const db = readDB();
+  try {
+    const db = readDB();
 
-  res.json(db.consultas);
+    res.json(db.consultas);
+  } catch (erro) {
+    console.error("Erro ao buscar consultas:", erro);
+
+    res.status(500).json({
+      erro: "Erro ao buscar consultas"
+    });
+  }
 });
-
 
 // =====================================================
 // START
