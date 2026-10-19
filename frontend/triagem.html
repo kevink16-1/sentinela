@@ -1,9 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Triagem</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Triagem Hospitalar</title>
 <link rel="stylesheet" href="style.css">
+
 <style>
   .btn-tv {
     background: #28a745;
@@ -13,8 +16,8 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
-    margin-left: 8px;
   }
+
   .btn-tv:hover { background: #1e7e34; }
 
   .pacientes-fila {
@@ -24,30 +27,39 @@
     padding: 16px;
     border: 1px solid #d0d8f0;
   }
+
   .pacientes-fila h3 {
     margin-top: 0;
     color: #333;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
   }
+
   .pacientes-fila h3 span {
     font-size: 13px;
     font-weight: normal;
     color: #666;
   }
+
   .fila-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
     background: white;
     border-radius: 6px;
     padding: 10px 14px;
     margin-bottom: 8px;
     border: 1px solid #dce4ff;
   }
+
   .fila-item strong { font-size: 15px; }
-  .fila-item small { color: #888; font-size: 12px; }
+  .fila-item small { color: #666; font-size: 12px; }
+
   .btn-abrir-tv {
     display: inline-block;
     background: #17a2b8;
@@ -59,36 +71,130 @@
     cursor: pointer;
     border: none;
   }
+
   .btn-abrir-tv:hover { background: #117a8b; }
+
+  .aviso-demo {
+    background: #fff3cd;
+    color: #664d03;
+    border: 1px solid #ffecb5;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 18px;
+    font-size: 14px;
+  }
+
+  .resultado-risco {
+    display: none;
+    padding: 14px;
+    border-radius: 8px;
+    margin: 16px 0;
+    border: 1px solid transparent;
+  }
+
+  .resultado-risco strong {
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .resultado-risco p { margin-bottom: 0; }
+
+  .resultado-risco.vermelho {
+    display: block;
+    background: #f8d7da;
+    color: #721c24;
+    border-color: #f1aeb5;
+  }
+
+  .resultado-risco.amarelo {
+    display: block;
+    background: #fff3cd;
+    color: #664d03;
+    border-color: #ffecb5;
+  }
+
+  .resultado-risco.verde {
+    display: block;
+    background: #d1e7dd;
+    color: #0f5132;
+    border-color: #a3cfbb;
+  }
+
+  .resultado-risco.avaliacao_necessaria {
+    display: block;
+    background: #e2e3e5;
+    color: #41464b;
+    border-color: #c4c8cb;
+  }
+
+  .legenda-risco {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.7;
+    margin-top: 14px;
+  }
+
+  .campo-ajuda {
+    display: block;
+    color: #666;
+    font-size: 12px;
+    margin: -6px 0 12px;
+  }
+
+  button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 </style>
 </head>
 
 <body>
 <div class="container">
 
-  <!-- Cabeçalho com botão da TV -->
-  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+  <!-- CABEÇALHO -->
+  <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:20px;">
     <h2 style="margin:0;">🏥 Triagem Hospitalar</h2>
-    <button class="btn-abrir-tv" onclick="window.open('tv.html','_blank')">📺 Abrir Tela da TV</button>
+
+    <button type="button" class="btn-abrir-tv"
+      onclick="window.open('tv.html','_blank')">
+      📺 Abrir Tela da TV
+    </button>
   </div>
 
-  <!-- Fila de pacientes do Atendimento criada para mostrar quem pode ser chamado na TV -->
+  <!-- AVISO -->
+  <div class="aviso-demo">
+    <strong>⚠️ Classificação demonstrativa.</strong>
+    Este sistema utiliza regras simplificadas para fins acadêmicos.
+    A classificação não é um protocolo clínico validado e não substitui
+    avaliação profissional.
+  </div>
+
+  <!-- FILA DE PACIENTES -->
   <div class="pacientes-fila">
     <h3>
       Pacientes Cadastrados no Atendimento
       <span>Clique em "Chamar na TV" para chamar ao guichê</span>
     </h3>
+
     <div id="fila-pacientes">
       <p style="color:#888; text-align:center;">Carregando...</p>
     </div>
-    <button onclick="carregarPacientes()" style="margin-top:8px; background:#6c757d; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-size:13px;">🔄 Atualizar lista</button>
+
+    <button type="button" onclick="carregarPacientes()"
+      style="margin-top:8px; background:#6c757d; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-size:13px;">
+      🔄 Atualizar lista
+    </button>
   </div>
 
   <hr>
 
+  <!-- FORMULÁRIO -->
   <h3>Formulário de Triagem</h3>
-  <input id="nome" placeholder="Nome do paciente">
 
+  <label for="nome">Nome do paciente</label>
+  <input id="nome" type="text" placeholder="Nome do paciente">
+
+  <label for="sintoma">Sintoma principal</label>
   <select id="sintoma">
     <option value="">Selecione o sintoma</option>
     <option value="dor_leve">Dor leve</option>
@@ -106,106 +212,243 @@
     <option value="hemorragia">Hemorragia</option>
   </select>
 
-  <input id="temp" type="number" placeholder="Temperatura">
-  <input id="alergia" placeholder="Alergias">
-  <textarea id="observacao" placeholder="Observações"></textarea>
+  <label for="temp">Temperatura (°C)</label>
+  <input id="temp" type="number" min="25" max="45" step="0.1"
+    placeholder="Ex.: 36,5">
 
-  <div id="resultado"></div>
+  <small class="campo-ajuda">
+    Se não houver medida disponível, deixe em branco.
+  </small>
 
-  <button onclick="salvar()">Salvar Triagem</button>
+  <label for="alergia">Alergias</label>
+  <input id="alergia" type="text" placeholder="Informe as alergias">
+
+  <label for="observacao">Observações</label>
+  <textarea id="observacao" placeholder="Observações adicionais"></textarea>
+
+  <div id="resultado" class="resultado-risco" role="status" aria-live="polite"></div>
+
+  <button id="btn-salvar" type="button" onclick="salvar()">
+    Salvar Triagem
+  </button>
+
+  <div class="legenda-risco">
+    <strong>Legenda da classificação demonstrativa</strong><br>
+    🔴 Vermelho: sinal de alerta que requer avaliação imediata.<br>
+    🟡 Amarelo: requer avaliação prioritária.<br>
+    🟢 Verde: nenhum alerta automático identificado pelos dados informados.<br>
+    ⚪ Avaliação necessária: dados insuficientes para classificar.
+  </div>
 
 </div>
 
 <script>
+const nomesRisco = {
+  vermelho: "🔴 VERMELHO — avaliação imediata",
+  amarelo: "🟡 AMARELO — avaliação prioritária",
+  verde: "🟢 VERDE — sem alerta automático identificado",
+  avaliacao_necessaria: "⚪ AVALIAÇÃO NECESSÁRIA"
+};
 
-function carregarPacientes() {
-  fetch("/pacientes")
-    .then(r => r.json())
-    .then(pacientes => {
-      const div = document.getElementById("fila-pacientes");
+// =====================================================
+// CARREGAR PACIENTES CADASTRADOS
+// =====================================================
 
-      // Mostra apenas os com status "triagem"
-      const fila = pacientes.filter(p => p.status === "triagem");
+async function carregarPacientes() {
+  const div = document.getElementById("fila-pacientes");
 
-      if (fila.length === 0) {
-        div.innerHTML = "<p style='color:#888; text-align:center;'>Nenhum paciente aguardando.</p>";
-        return;
-      }
+  try {
+    const resposta = await fetch("/pacientes");
 
-      div.innerHTML = "";
-      fila.forEach(p => {
-        const item = document.createElement("div");
-        item.className = "fila-item";
-        item.innerHTML = `
-          <div>
-            <strong>${p.nome}</strong><br>
-            <small>CPF: ${p.cpf || "—"} | Tipo: ${p.tipo || "—"}</small>
-          </div>
-          <button class="btn-tv" onclick="chamarNaTV('${p.nome}')">📺 Chamar na TV</button>
-        `;
-        div.appendChild(item);
-      });
-    })
-    .catch(() => {
-      document.getElementById("fila-pacientes").innerHTML =
-        "<p style='color:red;'>Erro ao carregar pacientes.</p>";
+    if (!resposta.ok) {
+      throw new Error("Falha ao carregar pacientes.");
+    }
+
+    const pacientes = await resposta.json();
+    const fila = pacientes.filter(p => p.status === "triagem");
+
+    div.replaceChildren();
+
+    if (fila.length === 0) {
+      const mensagem = document.createElement("p");
+      mensagem.style.cssText = "color:#888;text-align:center;";
+      mensagem.textContent = "Nenhum paciente aguardando.";
+      div.appendChild(mensagem);
+      return;
+    }
+
+    fila.forEach(p => {
+      const item = document.createElement("div");
+      item.className = "fila-item";
+
+      const informacoes = document.createElement("div");
+      const nome = document.createElement("strong");
+      nome.textContent = p.nome || "Nome não informado";
+
+      const detalhes = document.createElement("small");
+      detalhes.textContent =
+        "Documento: " + (p.documento || "—") +
+        " | Tipo: " + (p.tipo || "—");
+
+      informacoes.appendChild(nome);
+      informacoes.appendChild(document.createElement("br"));
+      informacoes.appendChild(detalhes);
+
+      const botao = document.createElement("button");
+      botao.type = "button";
+      botao.className = "btn-tv";
+      botao.textContent = "📺 Chamar na TV";
+      botao.addEventListener("click", () => chamarNaTV(p.nome || ""));
+
+      item.appendChild(informacoes);
+      item.appendChild(botao);
+      div.appendChild(item);
     });
+
+  } catch (erro) {
+    div.textContent = "Erro ao carregar pacientes. Tente atualizar a lista.";
+  }
 }
 
-// Função criada para enviar o nome do paciente para a TV quando ele for chamado no guichê.
-function chamarNaTV(nome) {
-  fetch("/tv/chamar", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      localTipo: "GUICHÊ",
-      localNumero: "01",
-      paciente: nome
-    })
-  })
-  .then(r => r.json())
-  .then(() => {
+// =====================================================
+// CHAMAR PACIENTE NA TV
+// =====================================================
+
+async function chamarNaTV(nome) {
+  try {
+    const resposta = await fetch("/tv/chamar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        localTipo: "GUICHÊ",
+        localNumero: "01",
+        paciente: nome
+      })
+    });
+
+    const dados = await resposta.json();
+
+    if (!resposta.ok) {
+      throw new Error(dados.erro || "Não foi possível chamar o paciente.");
+    }
+
     alert("✅ " + nome + " foi chamado na TV para o Guichê 01!");
-  });
+
+  } catch (erro) {
+    alert(erro.message || "Erro ao chamar paciente na TV.");
+  }
 }
 
-function classificarRisco(sintoma, temperatura) {
-  const vermelhos = ["infarto","avc","convulsao","hemorragia","falta_ar_grave"];
-  const amarelos = ["febre","vomito","diarreia","falta_ar_moderada"];
-  if (temperatura >= 39) return "vermelho";
-  if (vermelhos.includes(sintoma)) return "vermelho";
-  if (amarelos.includes(sintoma)) return "amarelo";
-  return "verde";
+// =====================================================
+// EXIBIR RESULTADO DEVOLVIDO PELO BACKEND
+// =====================================================
+
+function mostrarResultado(data) {
+  const resultado = document.getElementById("resultado");
+  const risco = data.risco || "avaliacao_necessaria";
+
+  resultado.className = "resultado-risco " + risco;
+  resultado.replaceChildren();
+
+  const titulo = document.createElement("strong");
+  titulo.textContent = nomesRisco[risco] || nomesRisco.avaliacao_necessaria;
+
+  const motivo = document.createElement("p");
+  motivo.textContent = data.motivoRisco ||
+    "Justificativa não informada pelo servidor.";
+
+  resultado.appendChild(titulo);
+  resultado.appendChild(motivo);
 }
 
-function salvar() {
-  const nome = document.getElementById("nome").value;
+// =====================================================
+// SALVAR TRIAGEM
+// =====================================================
+
+async function salvar() {
+  const nome = document.getElementById("nome").value.trim();
   const sintoma = document.getElementById("sintoma").value;
-  const temperatura = Number(document.getElementById("temp").value);
-  const alergia = document.getElementById("alergia").value;
-  const observacao = document.getElementById("observacao").value;
-  const risco = classificarRisco(sintoma, temperatura);
+  const tempTexto = document.getElementById("temp").value.trim();
+  const alergia = document.getElementById("alergia").value.trim();
+  const observacao = document.getElementById("observacao").value.trim();
 
-  fetch("/triagem", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nome, sintoma, temperatura, alergia, observacao, risco })
-  })
-  .then(r => r.json())
-  .then(data => {
-    const resultado = document.getElementById("resultado");
-    resultado.className = risco;
-    resultado.innerHTML = "Classificação: " + risco.toUpperCase();
+  const botao = document.getElementById("btn-salvar");
+  const resultado = document.getElementById("resultado");
+
+  if (!nome) {
+    alert("Informe o nome do paciente.");
+    document.getElementById("nome").focus();
+    return;
+  }
+
+  if (!sintoma) {
+    alert("Selecione o sintoma principal.");
+    document.getElementById("sintoma").focus();
+    return;
+  }
+
+  let temperatura = null;
+
+  if (tempTexto !== "") {
+    temperatura = Number(tempTexto);
+
+    if (!Number.isFinite(temperatura) || temperatura < 25 || temperatura > 45) {
+      alert("Informe uma temperatura válida entre 25 °C e 45 °C.");
+      document.getElementById("temp").focus();
+      return;
+    }
+  }
+
+  botao.disabled = true;
+  botao.textContent = "Salvando...";
+
+  try {
+    const resposta = await fetch("/triagem", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nome,
+        sintoma,
+        temperatura,
+        alergia,
+        observacao
+      })
+    });
+
+    const data = await resposta.json();
+
+    if (!resposta.ok) {
+      throw new Error(data.erro || "Não foi possível salvar a triagem.");
+    }
+
+    // A classificação é decidida pelo backend.
+    mostrarResultado(data);
+
     alert("Triagem salva com sucesso!");
-  });
+
+    document.getElementById("nome").value = "";
+    document.getElementById("sintoma").value = "";
+    document.getElementById("temp").value = "";
+    document.getElementById("alergia").value = "";
+    document.getElementById("observacao").value = "";
+
+  } catch (erro) {
+    resultado.className = "resultado-risco avaliacao_necessaria";
+    resultado.textContent = erro.message || "Erro ao salvar a triagem.";
+    alert(erro.message || "Erro ao salvar a triagem.");
+
+  } finally {
+    botao.disabled = false;
+    botao.textContent = "Salvar Triagem";
+  }
 }
 
-// Carrega a fila ao abrir a página
+// =====================================================
+// INICIALIZAÇÃO
+// =====================================================
+
 carregarPacientes();
-
-// Atualiza a lista automaticamente a cada 10 segundos
 setInterval(carregarPacientes, 10000);
-
 </script>
 
 </body>
